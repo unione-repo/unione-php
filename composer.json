@@ -1,0 +1,29 @@
+{
+  "name": "unione-repo/unione-php",
+  "description": "The UniOne SDK package what provide methods to interact with UniOne API.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "ECOMZ Holding Limited as UniOne",
+      "homepage": "https://unione.io"
+    },
+    {
+      "name": "DevBranch Ltd",
+      "homepage": "https://dev-branch.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4 || ^8.0",
+    "guzzlehttp/guzzle": "^7.5"
+  },
+  "minimum-stability": "stable",
+  "config": {
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Unione\\": "src"
+    }
+  }
+}

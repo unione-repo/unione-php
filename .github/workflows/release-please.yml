@@ -1,0 +1,14 @@
+on:
+  push:
+    branches:
+      - master
+name: release-please
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: GoogleCloudPlatform/release-please-action@v2
+        with:
+          # The usual GITHUB_TOKEN doesn't work since PRs created using it doesn't trigger GitHub actions builds.
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          release-type: php
