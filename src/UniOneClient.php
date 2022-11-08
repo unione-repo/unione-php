@@ -35,8 +35,16 @@ final class UniOneClient
      */
     private string $apiKey;
 
+    /**
+     * The timeout in seconds.
+     *
+     * @var float
+     */
+    private float $timeout;
+
     public function __construct()
     {
+        $this->timeout = 5;
         $this->httpClient = new Client([
           'base_uri' => $this::$endpoint,
         ]);
@@ -50,6 +58,16 @@ final class UniOneClient
     public function setApiKey(string $apiKey): void
     {
         $this->apiKey = $apiKey;
+    }
+
+    /**
+     * Set the timeout in seconds.
+     *
+     * @param float $timeout the timeout in seconds
+     */
+    public function setTimeout(float $timeout): void
+    {
+        $this->timeout = $timeout;
     }
 
     /**
@@ -110,6 +128,7 @@ final class UniOneClient
             $response = $this->httpClient->post('email/send.json', [
                 'headers' => $head + $responseHeader,
                 'json' => $responseBody,
+                'timeout' => $this->timeout,
               ]
             );
 
@@ -117,6 +136,9 @@ final class UniOneClient
         } catch (BadResponseException $e) {
             // handle exception or api errors.
             return $e->getResponse()->getBody()->getContents();
+        } catch (\GuzzleHttp\Exception\TransferException $e) {
+            // handle exception or api errors.
+            return $e->getMessage();
         }
     }
 }
