@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Unione;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\BadResponseException;
 use Psr\Http\Message\UriInterface;
 
 /**
@@ -73,32 +72,29 @@ final class UniOneClient
     /**
      * Send a request to the UniOne API.
      *
-     * @param array $body the request body
-     * @param array $head the request headers
+     * @param array $body    the request body
+     * @param array $headers the request headers
      *
-     * @return string
+     * @return string the response with the status code
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\BadResponseException
+     * @throws \GuzzleHttp\Exception\TransferException
      */
-    public function sender(array $body, array $head = []): string
+    public function send(array $body, array $headers = []): string
     {
-        $responseHeader = [
+        $requestHeaders = $headers + [
           'Content-Type' => 'application/json',
           'Accept' => 'application/json',
           'X-API-KEY' => $this->apiKey,
-          'X-Mailer' => 'UniOne SDK-PHP agent',
+          'X-Mailer' => 'UniOne PHP-SDK',
         ];
 
         // Build body for request.
         // @todo: Refactor this and create a special class for it.
-        $responseBody = [
+        $requestBody = [
           'message' => [
-            'recipients' => [
-              [
-                'email' => $body['recipients_email'] ?? null,
-                'substitutions' => $body['recipients_substitutions'] ?? null,
-                'metadata' => $body['recipients_metadata'] ?? null,
-              ],
-            ],
+            'recipients' => $body['recipients'],
             'template_id' => $body['template_id'] ?? null,
             'skip_unsubscribe' => $body['skip_unsubscribe'] ?? null,
             'global_language' => $body['global_language'] ?? null,
@@ -126,14 +122,14 @@ final class UniOneClient
         try {
             // Send request.
             $response = $this->httpClient->post('email/send.json', [
-                'headers' => $head + $responseHeader,
-                'json' => $responseBody,
+                'headers' => $requestHeaders,
+                'json' => $requestBody,
                 'timeout' => $this->timeout,
               ]
             );
 
             return $response->getBody()->getContents();
-        } catch (BadResponseException $e) {
+        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             // handle exception or api errors.
             return $e->getResponse()->getBody()->getContents();
         } catch (\GuzzleHttp\Exception\TransferException $e) {
