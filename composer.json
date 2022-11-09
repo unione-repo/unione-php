@@ -1,5 +1,5 @@
 {
-  "name": "unione-repo/unione-php",
+  "name": "unione/unione-php",
   "description": "The UniOne SDK package what provide methods to interact with UniOne API.",
   "type": "library",
   "license": "MIT",
@@ -25,5 +25,8 @@
     "psr-4": {
       "Unione\\": "src"
     }
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.13"
   }
 }
