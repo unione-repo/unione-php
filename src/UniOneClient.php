@@ -23,7 +23,6 @@ final class UniOneClient
      * UniOne Instance.
      *
      * @var string|UriInterface
-     * @todo: Make it configurable.
      */
     private static $endpoint = 'https://eu1.unione.io/en/transactional/api/v1/';
 
@@ -41,12 +40,16 @@ final class UniOneClient
      */
     private float $timeout;
 
-    public function __construct()
+    /**
+     * @param string $endpoint
+     * @param string $apiKey
+     */
+    public function __construct(string $endpoint, string $apiKey)
     {
-        $this->timeout = 5;
-        $this->httpClient = new Client([
-          'base_uri' => $this::$endpoint,
-        ]);
+        $this->setApiKey($apiKey);
+        $this->setEndpoint($endpoint);
+        $this->setHttpClient();
+        $this->setTimeout(5);
     }
 
     /**
@@ -67,6 +70,30 @@ final class UniOneClient
     public function setTimeout(float $timeout): void
     {
         $this->timeout = $timeout;
+    }
+
+    /**
+     * @param string $endpoint
+     *
+     * @return void
+     */
+    public function setEndpoint(string $endpoint): void
+    {
+        if (!empty($endpoint)) {
+            $this::$endpoint = $endpoint;
+        }
+    }
+
+    /**
+     * Create a new instance of the client.
+     *
+     * @return void
+     */
+    public function setHttpClient(): void
+    {
+        $this->httpClient = new Client([
+          'base_uri' => $this::$endpoint,
+        ]);
     }
 
     /**
