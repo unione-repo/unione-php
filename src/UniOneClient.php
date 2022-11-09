@@ -24,7 +24,7 @@ final class UniOneClient
      *
      * @var string|UriInterface
      */
-    private static $endpoint = 'https://eu1.unione.io/en/transactional/api/v1/';
+    private $endpoint = 'https://eu1.unione.io/en/transactional/api/v1/';
 
     /**
      * The API key.
@@ -80,7 +80,7 @@ final class UniOneClient
     public function setEndpoint(string $endpoint): void
     {
         if (!empty($endpoint)) {
-            $this::$endpoint = $endpoint;
+            $this->endpoint = $endpoint;
         }
     }
 
@@ -92,7 +92,7 @@ final class UniOneClient
     public function setHttpClient(): void
     {
         $this->httpClient = new Client([
-          'base_uri' => $this::$endpoint,
+          'base_uri' => $this->endpoint,
         ]);
     }
 
