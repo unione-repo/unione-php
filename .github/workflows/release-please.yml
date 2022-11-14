@@ -7,7 +7,7 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: GoogleCloudPlatform/release-please-action@v2
+      - uses: GoogleCloudPlatform/release-please-action@v3
         with:
           # The usual GITHUB_TOKEN doesn't work since PRs created using it doesn't trigger GitHub actions builds.
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
