@@ -13,6 +13,11 @@ use Psr\Http\Message\UriInterface;
 final class UniOneClient
 {
     /**
+     * The current version of the SDK.
+     */
+    private const VERSION = '0.0';
+
+    /**
      * The HTTP client.
      *
      * @var Client
@@ -114,7 +119,7 @@ final class UniOneClient
           'Content-Type' => 'application/json',
           'Accept' => 'application/json',
           'X-API-KEY' => $this->apiKey,
-          'X-Mailer' => 'UniOne PHP-SDK',
+          'X-Mailer' => 'phpsdk-unione',
         ];
 
         // Build body for request.
@@ -143,6 +148,7 @@ final class UniOneClient
             'attachments' => $body['attachments'] ?? null,
             'inline_attachments' => $body['inline_attachments'] ?? null,
             'options' => $body['options'] ?? null,
+            'platform' => $body['platform'] ?? 'phpsdk.'.self::VERSION,
           ],
         ];
 
