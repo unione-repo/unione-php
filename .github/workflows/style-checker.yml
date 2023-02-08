@@ -15,7 +15,12 @@ jobs:
         with:
           php-version: 7.4
           coverage: none
-          tools: php-cs-fixer:3.9.5, cs2pr
+          tools: php-cs-fixer:3.9.5
+
+      - name: Setup reviewdog
+        uses: reviewdog/action-setup@v1
 
       - name: PHP-CS-Fixer
-        run: php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: php-cs-fixer fix --dry-run --format=json | reviewdog -efm="%f:%l:%c:%m" -reporter=github-pr-review -name=php-cs-fixer
