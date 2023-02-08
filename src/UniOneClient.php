@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Unione;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\UriInterface;
 
 /**
@@ -39,22 +40,19 @@ final class UniOneClient
     private string $apiKey;
 
     /**
-     * The timeout in seconds.
-     *
-     * @var float
-     */
-    private float $timeout;
-
-    /**
      * @param string $endpoint
      * @param string $apiKey
+     * @param array  $config
      */
-    public function __construct(string $endpoint, string $apiKey)
+    public function __construct(string $endpoint, string $apiKey, array $config = [])
     {
-        $this->setApiKey($apiKey);
-        $this->setEndpoint($endpoint);
-        $this->setHttpClient();
-        $this->setTimeout(5);
+        $this->setEndpoint($endpoint)->setApiKey($apiKey);
+        $defaults = [
+            'timeout' => 5,
+            'base_uri' => $this->endpoint,
+        ];
+        $client = new Client(array_merge($defaults, $config));
+        $this->setHttpClient($client);
     }
 
     /**
@@ -62,19 +60,11 @@ final class UniOneClient
      *
      * @param string $apiKey the API key
      */
-    public function setApiKey(string $apiKey): void
+    public function setApiKey(string $apiKey): UniOneClient
     {
         $this->apiKey = $apiKey;
-    }
 
-    /**
-     * Set the timeout in seconds.
-     *
-     * @param float $timeout the timeout in seconds
-     */
-    public function setTimeout(float $timeout): void
-    {
-        $this->timeout = $timeout;
+        return $this;
     }
 
     /**
@@ -82,11 +72,13 @@ final class UniOneClient
      *
      * @return void
      */
-    public function setEndpoint(string $endpoint): void
+    public function setEndpoint(string $endpoint): UniOneClient
     {
         if (!empty($endpoint)) {
             $this->endpoint = $endpoint;
         }
+
+        return $this;
     }
 
     /**
@@ -94,11 +86,11 @@ final class UniOneClient
      *
      * @return void
      */
-    public function setHttpClient(): void
+    public function setHttpClient(ClientInterface $client): UniOneClient
     {
-        $this->httpClient = new Client([
-          'base_uri' => $this->endpoint,
-        ]);
+        $this->httpClient = $client;
+
+        return $this;
     }
 
     /**
@@ -157,7 +149,6 @@ final class UniOneClient
             $response = $this->httpClient->post('email/send.json', [
                 'headers' => $requestHeaders,
                 'json' => $requestBody,
-                'timeout' => $this->timeout,
               ]
             );
 
