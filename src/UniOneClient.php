@@ -47,7 +47,7 @@ final class UniOneClient
 
     /**
      * @param string $endpoint
-     * @param string $apiKey
+     * @param string  $apiKey
      */
     public function __construct(string $endpoint, string $apiKey)
     {
@@ -82,7 +82,7 @@ final class UniOneClient
      *
      * @return void
      */
-    public function setEndpoint(string $endpoint): void
+    public function setEndpoint(string $endpoint ): void
     {
         if (!empty($endpoint)) {
             $this->endpoint = $endpoint;
@@ -116,11 +116,11 @@ final class UniOneClient
     public function send(array $body, array $headers = []): string
     {
         $requestHeaders = $headers + [
-          'Content-Type' => 'application/json',
-          'Accept' => 'application/json',
-          'X-API-KEY' => $this->apiKey,
-          'X-Mailer' => 'phpsdk-unione',
-        ];
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'X-API-KEY' => $this->apiKey,
+            'X-Mailer' => 'phpsdk-unione'
+          ];
 
         // Build body for request.
         // @todo: Refactor this and create a special class for it.
@@ -156,7 +156,7 @@ final class UniOneClient
             // Send request.
             $response = $this->httpClient->post('email/send.json', [
                 'headers' => $requestHeaders,
-                'json' => $requestBody,
+                  'json' => $requestBody,
                 'timeout' => $this->timeout,
               ]
             );
