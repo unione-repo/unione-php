@@ -97,7 +97,6 @@ final class UniOneClient
      * Send a request to the UniOne API.
      *
      * @param object $mail    the request parameters
-     * @param array  $headers the request headers
      *
      * @return string the response with the status code
      *
@@ -105,9 +104,9 @@ final class UniOneClient
      * @throws \GuzzleHttp\Exception\BadResponseException
      * @throws \GuzzleHttp\Exception\TransferException
      */
-    public function send(UniOneEmail $mail, array $headers = []): string
+    public function send(UniOneEmail $mail): string
     {
-        $requestHeaders = $headers + [
+        $requestHeaders = $mail->getRequestHeaders() + [
           'Content-Type' => 'application/json',
           'Accept' => 'application/json',
           'X-API-KEY' => $this->apiKey,

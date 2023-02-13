@@ -17,6 +17,13 @@ class UniOneEmail
     private array $message = [];
 
     /**
+     * Array with request headers.
+     *
+     * @var array
+     */
+    private array $requestHeaders = [];
+
+    /**
      * @param array $recipients
      * @param array $body
      */
@@ -427,5 +434,38 @@ class UniOneEmail
         $obj->message = $message;
 
         return $obj;
+    }
+
+    /**
+     * @param array $requestHeaders
+     *
+     * @return UniOneEmail
+     */
+    public function setRequestHeaders(array $requestHeaders): UniOneEmail
+    {
+        $this->requestHeaders = $requestHeaders;
+
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     *
+     * @return UniOneEmail
+     */
+    public function setRequestHeader(string $key, string $value): UniOneEmail
+    {
+        $this->requestHeaders[$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequestHeaders(): array
+    {
+        return $this->requestHeaders;
     }
 }
