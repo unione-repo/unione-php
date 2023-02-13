@@ -437,6 +437,19 @@ class UniOneEmail
     }
 
     /**
+     * @param string $property
+     * @param $value
+     *
+     * @return UniOneEmail
+     */
+    public function set(string $property, $value): UniOneEmail
+    {
+        $this->message[$property] = $value;
+
+        return $this;
+    }
+
+    /**
      * @param array $requestHeaders
      *
      * @return UniOneEmail
