@@ -48,7 +48,13 @@ class UniOneEmail
      */
     public function setRecipients(array $recipients): UniOneEmail
     {
-        $this->message['recipients'] = $recipients;
+        foreach ($recipients as $item) {
+            if (!is_array($item)) {
+                $new_array[]['email'] = $item;
+            }
+        }
+
+        $this->message['recipients'] = $new_array ?? $recipients;
 
         return $this;
     }
