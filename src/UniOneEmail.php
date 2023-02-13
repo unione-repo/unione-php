@@ -420,6 +420,26 @@ class UniOneEmail
     }
 
     /**
+     * @param string $platform
+     *
+     * @return UniOneEmail
+     */
+    public function setPlatform(string $platform): UniOneEmail
+    {
+        $this->message['platform'] = $platform;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlatform(): string
+    {
+        return $this->message['platform'];
+    }
+
+    /**
      * Method for build message array.
      *
      * @return array[]

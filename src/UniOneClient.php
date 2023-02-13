@@ -96,7 +96,7 @@ final class UniOneClient
     /**
      * Send a request to the UniOne API.
      *
-     * @param object $mail    the request parameters
+     * @param object $mail the request parameters
      *
      * @return string the response with the status code
      *
@@ -115,6 +115,9 @@ final class UniOneClient
 
         // Build body for request.
         $requestBody = $mail->toArray();
+        if (!isset($requestBody['message']['platform'])) {
+            $requestBody['message']['platform'] = 'phpsdk.'.self::VERSION;
+        }
 
         try {
             // Send request.
