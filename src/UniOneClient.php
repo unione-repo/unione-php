@@ -7,6 +7,7 @@ namespace Unione;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\UriInterface;
+use Unione\Model\Email;
 
 /**
  * This class is the base class for the UniOne SDK.
@@ -51,7 +52,7 @@ final class UniOneClient
             'timeout' => 5,
             'base_uri' => $this->endpoint,
         ];
-        $client = new Client(array_merge($defaults, $config));
+        $client = new Client(\array_merge($defaults, $config));
         $this->setHttpClient($client);
     }
 
@@ -96,8 +97,7 @@ final class UniOneClient
     /**
      * Send a request to the UniOne API.
      *
-     * @param array $body    the request body
-     * @param array $headers the request headers
+     * @param Email $mail the request parameters
      *
      * @return string the response with the status code
      *
@@ -105,9 +105,9 @@ final class UniOneClient
      * @throws \GuzzleHttp\Exception\BadResponseException
      * @throws \GuzzleHttp\Exception\TransferException
      */
-    public function send(array $body, array $headers = []): string
+    public function send(Email $mail): string
     {
-        $requestHeaders = $headers + [
+        $requestHeaders = $mail->getRequestHeaders() + [
           'Content-Type' => 'application/json',
           'Accept' => 'application/json',
           'X-API-KEY' => $this->apiKey,
@@ -115,34 +115,10 @@ final class UniOneClient
         ];
 
         // Build body for request.
-        // @todo: Refactor this and create a special class for it.
-        $requestBody = [
-          'message' => [
-            'recipients' => $body['recipients'],
-            'template_id' => $body['template_id'] ?? null,
-            'skip_unsubscribe' => $body['skip_unsubscribe'] ?? null,
-            'global_language' => $body['global_language'] ?? null,
-            'template_engine' => $body['template_engine'] ?? null,
-            'global_substitutions' => $body['global_substitutions'] ?? null,
-            'global_metadata' => $body['global_metadata'] ?? null,
-            'body' => [
-              'html' => $body['body_html'] ?? null,
-              'plaintext' => $body['body_plaintext'] ?? null,
-              'amp' => $body['body_amp'] ?? null,
-            ],
-            'subject' => $body['subject'] ?? null,
-            'from_email' => $body['from_email'] ?? null,
-            'from_name' => $body['from_name'] ?? null,
-            'reply_to' => $body['reply_to'] ?? null,
-            'track_links' => $body['track_links'] ?? 1,
-            'track_read' => $body['track_read'] ?? 1,
-            'headers' => $body['headers'] ?? null,
-            'attachments' => $body['attachments'] ?? null,
-            'inline_attachments' => $body['inline_attachments'] ?? null,
-            'options' => $body['options'] ?? null,
-            'platform' => $body['platform'] ?? 'phpsdk.'.self::VERSION,
-          ],
-        ];
+        $requestBody = $mail->toArray();
+        if (!isset($requestBody['message']['platform'])) {
+            $requestBody['message']['platform'] = 'phpsdk.'.self::VERSION;
+        }
 
         try {
             // Send request.

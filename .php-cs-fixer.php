@@ -18,6 +18,7 @@ return (new PhpCsFixer\Config())
     'no_superfluous_phpdoc_tags' => false,
     'phpdoc_separation' => false,
     'strict_param' => true,
+    'native_function_invocation' => ['include' => ['@internal']],
   ])
   ->setFinder($finder)
 ;
