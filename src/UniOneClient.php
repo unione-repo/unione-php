@@ -7,6 +7,7 @@ namespace Unione;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\UriInterface;
+use Unione\Model\Email;
 
 /**
  * This class is the base class for the UniOne SDK.
@@ -51,7 +52,7 @@ final class UniOneClient
             'timeout' => 5,
             'base_uri' => $this->endpoint,
         ];
-        $client = new Client(array_merge($defaults, $config));
+        $client = new Client(\array_merge($defaults, $config));
         $this->setHttpClient($client);
     }
 
@@ -96,7 +97,7 @@ final class UniOneClient
     /**
      * Send a request to the UniOne API.
      *
-     * @param object $mail the request parameters
+     * @param Email $mail the request parameters
      *
      * @return string the response with the status code
      *
@@ -104,7 +105,7 @@ final class UniOneClient
      * @throws \GuzzleHttp\Exception\BadResponseException
      * @throws \GuzzleHttp\Exception\TransferException
      */
-    public function send(UniOneEmail $mail): string
+    public function send(Email $mail): string
     {
         $requestHeaders = $mail->getRequestHeaders() + [
           'Content-Type' => 'application/json',

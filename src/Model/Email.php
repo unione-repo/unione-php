@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Unione;
+namespace Unione\Model;
 
 /**
  * This class for collecting message parameters.
  */
-class UniOneEmail
+class Email
 {
     /**
      * Array with all parameters.
@@ -44,17 +44,13 @@ class UniOneEmail
     /**
      * @param array $recipients
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setRecipients(array $recipients): UniOneEmail
+    public function setRecipients(array $recipients): Email
     {
-        foreach ($recipients as $item) {
-            if (!is_array($item)) {
-                $new_array[]['email'] = $item;
-            }
-        }
-
-        $this->message['recipients'] = $new_array ?? $recipients;
+        $this->message['recipients'] = \array_map(function ($item) {
+            return \is_array($item) ? $item : ['email' => $item];
+        }, $recipients);
 
         return $this;
     }
@@ -70,9 +66,9 @@ class UniOneEmail
     /**
      * @param string $templateId
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setTemplateId(string $templateId): UniOneEmail
+    public function setTemplateId(string $templateId): Email
     {
         $this->message['template_id'] = $templateId;
 
@@ -90,9 +86,9 @@ class UniOneEmail
     /**
      * @param array $tags
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setTags(array $tags): UniOneEmail
+    public function setTags(array $tags): Email
     {
         $this->message['tags'] = $tags;
 
@@ -110,9 +106,9 @@ class UniOneEmail
     /**
      * @param int $skipUnsubscribe
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setSkipUnsubscribe(int $skipUnsubscribe): UniOneEmail
+    public function setSkipUnsubscribe(int $skipUnsubscribe): Email
     {
         $this->message['skip_unsubscribe'] = $skipUnsubscribe;
 
@@ -130,9 +126,9 @@ class UniOneEmail
     /**
      * @param string $globalLanguage
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setGlobalLanguage(string $globalLanguage): UniOneEmail
+    public function setGlobalLanguage(string $globalLanguage): Email
     {
         $this->message['global_language'] = $globalLanguage;
 
@@ -150,9 +146,9 @@ class UniOneEmail
     /**
      * @param string $templateEngine
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setTemplateEngine(string $templateEngine): UniOneEmail
+    public function setTemplateEngine(string $templateEngine): Email
     {
         $this->message['template_engine'] = $templateEngine;
 
@@ -170,9 +166,9 @@ class UniOneEmail
     /**
      * @param array $globalSubstitutions
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setGlobalSubstitutions(array $globalSubstitutions): UniOneEmail
+    public function setGlobalSubstitutions(array $globalSubstitutions): Email
     {
         $this->message['global_substitutions'] = $globalSubstitutions;
 
@@ -190,9 +186,9 @@ class UniOneEmail
     /**
      * @param array $globalMetadata
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setGlobalMetadata(array $globalMetadata): UniOneEmail
+    public function setGlobalMetadata(array $globalMetadata): Email
     {
         $this->message['global_metadata'] = $globalMetadata;
 
@@ -210,9 +206,9 @@ class UniOneEmail
     /**
      * @param array $body
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setBody(array $body): UniOneEmail
+    public function setBody(array $body): Email
     {
         $this->message['body'] = $body;
 
@@ -230,9 +226,9 @@ class UniOneEmail
     /**
      * @param string $subject
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setSubject(string $subject): UniOneEmail
+    public function setSubject(string $subject): Email
     {
         $this->message['subject'] = $subject;
 
@@ -250,9 +246,9 @@ class UniOneEmail
     /**
      * @param string $fromEmail
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setFromEmail(string $fromEmail): UniOneEmail
+    public function setFromEmail(string $fromEmail): Email
     {
         $this->message['from_email'] = $fromEmail;
 
@@ -270,9 +266,9 @@ class UniOneEmail
     /**
      * @param string $fromName
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setFromName(string $fromName): UniOneEmail
+    public function setFromName(string $fromName): Email
     {
         $this->message['from_name'] = $fromName;
 
@@ -290,9 +286,9 @@ class UniOneEmail
     /**
      * @param string $replyTo
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setReplyTo(string $replyTo): UniOneEmail
+    public function setReplyTo(string $replyTo): Email
     {
         $this->message['reply_to'] = $replyTo;
 
@@ -310,9 +306,9 @@ class UniOneEmail
     /**
      * @param int $trackLinks
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setTrackLinks(int $trackLinks): UniOneEmail
+    public function setTrackLinks(int $trackLinks): Email
     {
         $this->message['track_links'] = $trackLinks;
 
@@ -330,9 +326,9 @@ class UniOneEmail
     /**
      * @param int $trackRead
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setTrackRead(int $trackRead): UniOneEmail
+    public function setTrackRead(int $trackRead): Email
     {
         $this->message['track_read'] = $trackRead;
 
@@ -350,9 +346,9 @@ class UniOneEmail
     /**
      * @param array $headers
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setHeaders(array $headers): UniOneEmail
+    public function setHeaders(array $headers): Email
     {
         $this->message['headers'] = $headers;
 
@@ -370,9 +366,9 @@ class UniOneEmail
     /**
      * @param array $attachments
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setAttachments(array $attachments): UniOneEmail
+    public function setAttachments(array $attachments): Email
     {
         $this->message['attachments'] = $attachments;
 
@@ -390,9 +386,9 @@ class UniOneEmail
     /**
      * @param array $inlineAttachments
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setInlineAttachments(array $inlineAttachments): UniOneEmail
+    public function setInlineAttachments(array $inlineAttachments): Email
     {
         $this->message['inline_attachments'] = $inlineAttachments;
 
@@ -410,9 +406,9 @@ class UniOneEmail
     /**
      * @param array $options
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setOptions(array $options): UniOneEmail
+    public function setOptions(array $options): Email
     {
         $this->message['options'] = $options;
 
@@ -422,9 +418,9 @@ class UniOneEmail
     /**
      * @param string $platform
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setPlatform(string $platform): UniOneEmail
+    public function setPlatform(string $platform): Email
     {
         $this->message['platform'] = $platform;
 
@@ -452,11 +448,11 @@ class UniOneEmail
     /**
      * @param $message
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public static function fromArray($message): UniOneEmail
+    public static function fromArray($message): Email
     {
-        $obj = new UniOneEmail();
+        $obj = new Email();
         $obj->message = $message;
 
         return $obj;
@@ -466,9 +462,9 @@ class UniOneEmail
      * @param string $property
      * @param $value
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function set(string $property, $value): UniOneEmail
+    public function set(string $property, $value): Email
     {
         $this->message[$property] = $value;
 
@@ -478,9 +474,9 @@ class UniOneEmail
     /**
      * @param array $requestHeaders
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setRequestHeaders(array $requestHeaders): UniOneEmail
+    public function setRequestHeaders(array $requestHeaders): Email
     {
         $this->requestHeaders = $requestHeaders;
 
@@ -491,9 +487,9 @@ class UniOneEmail
      * @param string $key
      * @param string $value
      *
-     * @return UniOneEmail
+     * @return Email
      */
-    public function setRequestHeader(string $key, string $value): UniOneEmail
+    public function setRequestHeader(string $key, string $value): Email
     {
         $this->requestHeaders[$key] = $value;
 
