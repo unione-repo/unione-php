@@ -6,6 +6,9 @@ namespace Unione;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\UriInterface;
 use Unione\Model\Email;
 
@@ -18,6 +21,20 @@ final class UniOneClient
      * The current version of the SDK.
      */
     private const VERSION = '0.0';
+
+    /**
+     * Te debug mode.
+     */
+    private bool $debugMode = false;
+
+  /**
+   * Request data.
+   */
+    private $requestStack;
+  /**
+   * The debug Log
+   */
+    private array $logData = [];
 
     /**
      * The HTTP client.
@@ -51,6 +68,7 @@ final class UniOneClient
         $defaults = [
             'timeout' => 5,
             'base_uri' => $this->endpoint,
+            'handler' => $this->debugMode ? $this->requestStack : null,
         ];
         $client = new Client(\array_merge($defaults, $config));
         $this->setHttpClient($client);
@@ -96,11 +114,8 @@ final class UniOneClient
 
     /**
      * Send a request to the UniOne API.
-     *
      * @param Email $mail the request parameters
-     *
      * @return string the response with the status code
-     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \GuzzleHttp\Exception\BadResponseException
      * @throws \GuzzleHttp\Exception\TransferException
@@ -125,8 +140,7 @@ final class UniOneClient
             $response = $this->httpClient->post('email/send.json', [
                 'headers' => $requestHeaders,
                 'json' => $requestBody,
-              ]
-            );
+              ]);
 
             return $response->getBody()->getContents();
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
@@ -135,6 +149,27 @@ final class UniOneClient
         } catch (\GuzzleHttp\Exception\TransferException $e) {
             // handle exception or api errors.
             return $e->getMessage();
+        }
+    }
+
+  /**
+   * Set debug mode.
+   * @param bool $mode
+   * @return void
+   */
+    public function setDebug(bool $mode = true)
+    {
+        $this->debugMode = $mode;
+
+        if ($this->debugMode) {
+            $this->requestStack = HandlerStack::create();
+            // Middleware that keeps Request data.
+            $this->requestStack->push(Middleware::mapRequest(function (RequestInterface $request): RequestInterface {
+                $contentsRequest = (string) $request->getBody();
+                $this->logData['request'] = $contentsRequest;
+
+                return $request;
+            }));
         }
     }
 }
