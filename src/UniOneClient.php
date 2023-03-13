@@ -7,7 +7,6 @@ namespace Unione;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\UriInterface;
-use Unione\Model\Email;
 
 /**
  * This class is the base class for the UniOne SDK.
@@ -85,7 +84,8 @@ final class UniOneClient
     /**
      * Create a new instance of the client.
      *
-     * @return void
+     * @param ClientInterface $client
+     * @return $this
      */
     public function setHttpClient(ClientInterface $client): UniOneClient
     {
@@ -94,39 +94,35 @@ final class UniOneClient
         return $this;
     }
 
-    /**
-     * Send a request to the UniOne API.
-     *
-     * @param Email $mail the request parameters
-     *
-     * @return string the response with the status code
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \GuzzleHttp\Exception\BadResponseException
-     * @throws \GuzzleHttp\Exception\TransferException
-     */
-    public function send(Email $mail): string
+  /**
+   * @param string $path
+   * @param array $body
+   * @param array $headers
+   * @param string $method
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   * @throws \GuzzleHttp\Exception\BadResponseException
+   * @throws \GuzzleHttp\Exception\TransferException
+   * @return string
+   */
+    public function httpRequest(string $path, array $body, array $headers = [], string $method = "POST"): string
     {
-        $requestHeaders = $mail->getRequestHeaders() + [
+        $requestHeaders = $headers + [
           'Content-Type' => 'application/json',
           'Accept' => 'application/json',
           'X-API-KEY' => $this->apiKey,
           'X-Mailer' => 'phpsdk-unione',
         ];
 
-        // Build body for request.
-        $requestBody = $mail->toArray();
-        if (!isset($requestBody['message']['platform'])) {
+        if (!isset($body['message']['platform'])) {
             $requestBody['message']['platform'] = 'phpsdk.'.self::VERSION;
         }
 
         try {
-            // Send request.
-            $response = $this->httpClient->post('email/send.json', [
-                'headers' => $requestHeaders,
-                'json' => $requestBody,
-              ]
-            );
+           // Send request.
+              $response = $this->httpClient->request($method, $path, [
+              'headers' => $requestHeaders,
+              'json' => $requestBody,
+              ]);
 
             return $response->getBody()->getContents();
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
@@ -136,5 +132,13 @@ final class UniOneClient
             // handle exception or api errors.
             return $e->getMessage();
         }
+    }
+
+  /**
+   * @return Api\Email
+   */
+    public function emails(): Api\Email
+    {
+        return new Api\Email($this);
     }
 }
