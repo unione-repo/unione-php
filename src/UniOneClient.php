@@ -84,7 +84,7 @@ final class UniOneClient
     /**
      * Create a new instance of the client.
      *
-     * @param ClientInterface $client
+     * @param  ClientInterface $client
      * @return $this
      */
     public function setHttpClient(ClientInterface $client): UniOneClient
@@ -94,17 +94,17 @@ final class UniOneClient
         return $this;
     }
 
-  /**
-   * @param string $path
-   * @param array $body
-   * @param array $headers
-   * @param string $method
-   * @throws \GuzzleHttp\Exception\GuzzleException
-   * @throws \GuzzleHttp\Exception\BadResponseException
-   * @throws \GuzzleHttp\Exception\TransferException
-   * @return string
-   */
-    public function httpRequest(string $path, array $body, array $headers = [], string $method = "POST"): string
+    /**
+     * @param  string                                     $path
+     * @param  array                                      $body
+     * @param  array                                      $headers
+     * @param  string                                     $method
+     * @return string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\BadResponseException
+     * @throws \GuzzleHttp\Exception\TransferException
+     */
+    public function httpRequest(string $path, array $body, array $headers = [], string $method = 'POST'): string
     {
         $requestHeaders = $headers + [
           'Content-Type' => 'application/json',
@@ -118,11 +118,11 @@ final class UniOneClient
         }
 
         try {
-           // Send request.
-              $response = $this->httpClient->request($method, $path, [
-              'headers' => $requestHeaders,
-              'json' => $requestBody,
-              ]);
+            // Send request.
+            $response = $this->httpClient->request($method, $path, [
+            'headers' => $requestHeaders,
+            'json' => $requestBody,
+            ]);
 
             return $response->getBody()->getContents();
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
@@ -134,9 +134,9 @@ final class UniOneClient
         }
     }
 
-  /**
-   * @return Api\Email
-   */
+    /**
+     * @return Api\Email
+     */
     public function emails(): Api\Email
     {
         return new Api\Email($this);
