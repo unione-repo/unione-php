@@ -6,6 +6,9 @@ namespace Unione;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\RequestInterface;
@@ -16,7 +19,7 @@ use Psr\Http\Message\UriInterface;
  */
 final class UniOneClient
 {
-     /**
+    /**
      * The current version of the SDK.
      */
     private const VERSION = '0.0';
@@ -26,13 +29,13 @@ final class UniOneClient
      */
     private bool $debugMode = false;
 
-  /**
-   * Request data.
-   */
-    private $requestStack;
-  /**
-   * The debug Log
-   */
+    /**
+     * Request data.
+     */
+    private HandlerStack $requestStack;
+    /**
+     * The debug Log.
+     */
     private array $logData = [];
 
     /**
@@ -44,10 +47,9 @@ final class UniOneClient
 
     /**
      * UniOne Instance.
-     *
      * @var string|UriInterface
      */
-    private $endpoint = 'https://eu1.unione.io/en/transactional/api/v1/';
+    private string $endpoint = 'https://eu1.unione.io/en/transactional/api/v1/';
 
     /**
      * The API key.
@@ -88,7 +90,7 @@ final class UniOneClient
     /**
      * @param string $endpoint
      *
-     * @return void
+     * @return $this
      */
     public function setEndpoint(string $endpoint): UniOneClient
     {
@@ -102,7 +104,7 @@ final class UniOneClient
     /**
      * Create a new instance of the client.
      *
-     * @param ClientInterface $client
+     * @param  ClientInterface $client
      * @return $this
      */
     public function setHttpClient(ClientInterface $client): UniOneClient
@@ -112,17 +114,17 @@ final class UniOneClient
         return $this;
     }
 
-  /**
-   * @param string $path
-   * @param array $body
-   * @param array $headers
-   * @param string $method
-   * @throws \GuzzleHttp\Exception\GuzzleException
-   * @throws \GuzzleHttp\Exception\BadResponseException
-   * @throws \GuzzleHttp\Exception\TransferException
-   * @return string
-   */
-    public function httpRequest(string $path, array $body, array $headers = [], string $method = "POST"): string
+    /**
+     * @param  string               $path
+     * @param  array                $body
+     * @param  array                $headers
+     * @param  string               $method
+     * @return string
+     * @throws GuzzleException
+     * @throws BadResponseException
+     * @throws TransferException
+     */
+    public function httpRequest(string $path, array $body, array $headers = [], string $method = 'POST'): string
     {
         $requestHeaders = $headers + [
           'Content-Type' => 'application/json',
@@ -136,45 +138,47 @@ final class UniOneClient
         }
 
         try {
-           // Send request.
-              $response = $this->httpClient->request($method, $path, [
-              'headers' => $requestHeaders,
-              'json' => $requestBody,
-              ]);
+            // Send request.
+            $response = $this->httpClient->request($method, $path, [
+            'headers' => $requestHeaders,
+            'json' => $requestBody,
+            ]);
 
             $responseData = $response->getBody();
 
             if ($this->debugMode) {
                 $this->logData['response'] = $responseData;
             }
+
             return $responseData->getContents();
-        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
+        } catch (BadResponseException $e) {
             // handle exception or api errors.
             $responseData = $response->getBody();
 
             if ($this->debugMode) {
                 $this->logData['response'] = $responseData;
             }
+
             return $responseData->getContents();
-        } catch (\GuzzleHttp\Exception\TransferException $e) {
+        } catch (TransferException $e) {
             // handle exception or api errors.
             return $e->getMessage();
         }
     }
 
-  /**
-   * @return Api\Email
-   */
+    /**
+     * @return Api\Email
+     */
     public function emails(): Api\Email
     {
         return new Api\Email($this);
     }
 
-  /**
-   * Set debug mode.
-   * @param bool $mode
-   * @return void
-   */
+    /**
+     * Set debug mode.
+     * @param  bool $mode
+     * @return void
+     */
     public function setDebug(bool $mode = true)
     {
         $this->debugMode = $mode;
@@ -191,10 +195,10 @@ final class UniOneClient
         }
     }
 
-  /**
-   * Return debug log array, if debugMode false return empty array.
-   * @return array|null
-   */
+    /**
+     * Return debug log array, if debugMode false return empty array.
+     * @return array|null
+     */
     public function getLog(): ?array
     {
         return $this->logData;
