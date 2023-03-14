@@ -48,8 +48,8 @@ final class UniOneClient
     {
         $this->setEndpoint($endpoint)->setApiKey($apiKey);
         $defaults = [
-            'timeout' => 5,
-            'base_uri' => $this->endpoint,
+          'timeout' => 5,
+          'base_uri' => $this->endpoint,
         ];
         $client = new Client(\array_merge($defaults, $config));
         $this->setHttpClient($client);
@@ -95,6 +95,14 @@ final class UniOneClient
     }
 
     /**
+     * @return Api\Email
+     */
+    public function emails(): Api\Email
+    {
+        return new Api\Email($this);
+    }
+
+    /**
      * @param  string                                     $path
      * @param  array                                      $body
      * @param  array                                      $headers
@@ -107,11 +115,11 @@ final class UniOneClient
     public function httpRequest(string $path, array $body, array $headers = [], string $method = 'POST'): string
     {
         $requestHeaders = $headers + [
-          'Content-Type' => 'application/json',
-          'Accept' => 'application/json',
-          'X-API-KEY' => $this->apiKey,
-          'X-Mailer' => 'phpsdk-unione',
-        ];
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'X-API-KEY' => $this->apiKey,
+            'X-Mailer' => 'phpsdk-unione',
+          ];
 
         if (!isset($body['message']['platform'])) {
             $requestBody['message']['platform'] = 'phpsdk.'.self::VERSION;
@@ -120,8 +128,8 @@ final class UniOneClient
         try {
             // Send request.
             $response = $this->httpClient->request($method, $path, [
-            'headers' => $requestHeaders,
-            'json' => $requestBody,
+              'headers' => $requestHeaders,
+              'json' => $requestBody,
             ]);
 
             return $response->getBody()->getContents();
@@ -132,13 +140,5 @@ final class UniOneClient
             // handle exception or api errors.
             return $e->getMessage();
         }
-    }
-
-    /**
-     * @return Api\Email
-     */
-    public function emails(): Api\Email
-    {
-        return new Api\Email($this);
     }
 }

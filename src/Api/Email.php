@@ -8,15 +8,10 @@ use Unione\Model\Email as EmailData;
 use Unione\UniOneClient;
 
 /**
- * This class for sending  Mail.
+ *  Class for Email API methods.
  */
 class Email
 {
-    /**
-     * The Url path.
-     */
-    private string $path = 'email/send.json';
-
     /**
      * The UniOneClient client.
      *
@@ -33,7 +28,7 @@ class Email
     }
 
     /**
-     * Send a request to the UniOne API.
+     * Sends an email.
      *
      * @param Email $mail the request parameters
      *
@@ -41,9 +36,10 @@ class Email
      */
     public function send(EmailData $mail): string
     {
+        $path = 'email/send.json';
         $headers = $mail->getRequestHeaders();
         $body = $mail->toArray();
 
-        return $this->client->httpRequest($this->path, $body, $headers);
+        return $this->client->httpRequest($path, $body, $headers);
     }
 }
