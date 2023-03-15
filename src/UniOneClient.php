@@ -110,12 +110,12 @@ final class UniOneClient
      * @param  array                $body
      * @param  array                $headers
      * @param  string               $method
-     * @return string
+     * @return string|\stdClass
      * @throws GuzzleException
      * @throws BadResponseException
      * @throws TransferException
      */
-    public function httpRequest(string $path, array $body, array $headers = [], string $method = 'POST'): string
+    public function httpRequest(string $path, array $body, array $headers = [], string $method = 'POST'): string|\stdClass
     {
         $requestHeaders = $headers + [
             'Content-Type' => 'application/json',
@@ -135,11 +135,12 @@ final class UniOneClient
               'json' => $body,
             ]);
 
-            return $response->getBody()->getContents();
-        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
+            return \json_decode($response->getBody()->getContents());
+        } catch (BadResponseException $e) {
             // handle exception or api errors.
-            return $e->getResponse()->getBody()->getContents();
-        } catch (\GuzzleHttp\Exception\TransferException $e) {
+
+            return \json_decode($e->getResponse()->getBody()->getContents());
+        } catch (TransferException $e) {
             // handle exception or api errors.
             return $e->getMessage();
         }
