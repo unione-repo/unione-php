@@ -136,10 +136,10 @@ final class UniOneClient
             ]);
 
             return $response->getBody()->getContents();
-        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
+        } catch (BadResponseException $e) {
             // handle exception or api errors.
             return $e->getResponse()->getBody()->getContents();
-        } catch (\GuzzleHttp\Exception\TransferException $e) {
+        } catch (TransferException $e) {
             // handle exception or api errors.
             return $e->getMessage();
         }
