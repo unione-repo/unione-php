@@ -16,11 +16,6 @@ use Unione\UniOneClient;
 class Email
 {
     /**
-     * The Url path.
-     */
-    private string $path = 'email/send.json';
-
-    /**
      * The UniOneClient client.
      *
      * @var UniOneClient
@@ -47,7 +42,8 @@ class Email
     {
         $headers = $mail->getRequestHeaders();
         $body = $mail->toArray();
+        $path = 'email/send.json';
 
-        return $this->client->httpRequest($this->path, $body, $headers);
+        return $this->client->httpRequest($path, $body, $headers);
     }
 }

@@ -9,9 +9,6 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\TransferException;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\UriInterface;
 
 /**
@@ -23,20 +20,6 @@ final class UniOneClient
      * The current version of the SDK.
      */
     private const VERSION = '0.0';
-
-    /**
-     * Te debug mode.
-     */
-    private bool $debugMode = false;
-
-    /**
-     * Request data.
-     */
-    private HandlerStack $requestStack;
-    /**
-     * The debug Log.
-     */
-    private array $logData = [];
 
     /**
      * The HTTP client.
@@ -69,7 +52,6 @@ final class UniOneClient
         $defaults = [
             'timeout' => 5,
             'base_uri' => $this->endpoint,
-            'handler' => $this->debugMode ? $this->requestStack : null,
         ];
         $client = new Client(\array_merge($defaults, $config));
         $this->setHttpClient($client);
@@ -134,30 +116,21 @@ final class UniOneClient
         ];
 
         if (!isset($body['message']['platform'])) {
-            $requestBody['message']['platform'] = 'phpsdk.'.self::VERSION;
+            $body['message']['platform'] = 'phpsdk.'.self::VERSION;
         }
 
         try {
-            // Send request.
             $response = $this->httpClient->request($method, $path, [
             'headers' => $requestHeaders,
-            'json' => $requestBody,
+            'json' => $body,
             ]);
 
             $responseData = $response->getBody();
-
-            if ($this->debugMode) {
-                $this->logData['response'] = $responseData;
-            }
 
             return $responseData->getContents();
         } catch (BadResponseException $e) {
             // handle exception or api errors.
             $responseData = $response->getBody();
-
-            if ($this->debugMode) {
-                $this->logData['response'] = $responseData;
-            }
 
             return $responseData->getContents();
         } catch (TransferException $e) {
@@ -172,35 +145,5 @@ final class UniOneClient
     public function emails(): Api\Email
     {
         return new Api\Email($this);
-    }
-
-    /**
-     * Set debug mode.
-     * @param  bool $mode
-     * @return void
-     */
-    public function setDebug(bool $mode = true)
-    {
-        $this->debugMode = $mode;
-
-        if ($this->debugMode) {
-            $this->requestStack = HandlerStack::create();
-            // Middleware that keeps Request data.
-            $this->requestStack->push(Middleware::mapRequest(function (RequestInterface $request): RequestInterface {
-                $contentsRequest = (string) $request->getBody();
-                $this->logData['request'] = $contentsRequest;
-
-                return $request;
-            }));
-        }
-    }
-
-    /**
-     * Return debug log array, if debugMode false return empty array.
-     * @return array|null
-     */
-    public function getLog(): ?array
-    {
-        return $this->logData;
     }
 }
