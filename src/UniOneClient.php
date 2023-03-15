@@ -97,6 +97,14 @@ final class UniOneClient
     }
 
     /**
+     * @return Api\Email
+     */
+    public function emails(): Api\Email
+    {
+        return new Api\Email($this);
+    }
+
+    /**
      * @param  string               $path
      * @param  array                $body
      * @param  array                $headers
@@ -137,13 +145,5 @@ final class UniOneClient
             // handle exception or api errors.
             return $e->getMessage();
         }
-    }
-
-    /**
-     * @return Api\Email
-     */
-    public function emails(): Api\Email
-    {
-        return new Api\Email($this);
     }
 }

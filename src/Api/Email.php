@@ -40,9 +40,9 @@ class Email
      */
     public function send(EmailData $mail): string
     {
+        $path = 'email/send.json';
         $headers = $mail->getRequestHeaders();
         $body = $mail->toArray();
-        $path = 'email/send.json';
 
         return $this->client->httpRequest($path, $body, $headers);
     }
