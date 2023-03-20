@@ -6,6 +6,9 @@ namespace Unione;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\TransferException;
 use Psr\Http\Message\UriInterface;
 
 /**
@@ -103,14 +106,14 @@ final class UniOneClient
     }
 
     /**
-     * @param  string                                     $path
-     * @param  array                                      $body
-     * @param  array                                      $headers
-     * @param  string                                     $method
+     * @param  string               $path
+     * @param  array                $body
+     * @param  array                $headers
+     * @param  string               $method
      * @return string
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \GuzzleHttp\Exception\BadResponseException
-     * @throws \GuzzleHttp\Exception\TransferException
+     * @throws GuzzleException
+     * @throws BadResponseException
+     * @throws TransferException
      */
     public function httpRequest(string $path, array $body, array $headers = [], string $method = 'POST'): string
     {
@@ -122,21 +125,21 @@ final class UniOneClient
           ];
 
         if (!isset($body['message']['platform'])) {
-            $requestBody['message']['platform'] = 'phpsdk.'.self::VERSION;
+            $body['message']['platform'] = 'phpsdk.'.self::VERSION;
         }
 
         try {
             // Send request.
             $response = $this->httpClient->request($method, $path, [
               'headers' => $requestHeaders,
-              'json' => $requestBody,
+              'json' => $body,
             ]);
 
             return $response->getBody()->getContents();
-        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
+        } catch (BadResponseException $e) {
             // handle exception or api errors.
             return $e->getResponse()->getBody()->getContents();
-        } catch (\GuzzleHttp\Exception\TransferException $e) {
+        } catch (TransferException $e) {
             // handle exception or api errors.
             return $e->getMessage();
         }

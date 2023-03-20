@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Unione\Api;
 
+use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\TransferException;
 use Unione\Model\Email as EmailData;
 use Unione\UniOneClient;
 
 /**
- *  Class for Email API methods.
+ *  This class for sending  Mail.
  */
 class Email
 {
@@ -27,19 +30,20 @@ class Email
         $this->client = $client;
     }
 
-    /**
-     * Sends an email.
-     *
-     * @param Email $mail the request parameters
-     *
-     * @return string the response with the status code
-     */
-    public function send(EmailData $mail): string
-    {
-        $path = 'email/send.json';
-        $headers = $mail->getRequestHeaders();
-        $body = $mail->toArray();
+  /**
+   * Send a request to the UniOne API.
+   * @param  EmailData            $mail the request parameters
+   * @return string               the response with the status code
+   * @throws GuzzleException
+   * @throws BadResponseException
+   * @throws TransferException
+   */
+  public function send(EmailData $mail): string
+  {
+      $path = 'email/send.json';
+      $headers = $mail->getRequestHeaders();
+      $body = $mail->toArray();
 
-        return $this->client->httpRequest($path, $body, $headers);
-    }
+      return $this->client->httpRequest($path, $body, $headers);
+  }
 }
