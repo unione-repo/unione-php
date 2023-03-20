@@ -33,12 +33,12 @@ class Email
   /**
    * Send a request to the UniOne API.
    * @param  EmailData            $mail the request parameters
-   * @return string               the response with the status code
+   * @return array                the response with the status code
    * @throws GuzzleException
    * @throws BadResponseException
    * @throws TransferException
    */
-  public function send(EmailData $mail): string
+  public function send(EmailData $mail): array
   {
       $path = 'email/send.json';
       $headers = $mail->getRequestHeaders();

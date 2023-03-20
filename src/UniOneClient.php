@@ -110,12 +110,12 @@ final class UniOneClient
      * @param  array                $body
      * @param  array                $headers
      * @param  string               $method
-     * @return string
+     * @return array
      * @throws GuzzleException
      * @throws BadResponseException
      * @throws TransferException
      */
-    public function httpRequest(string $path, array $body, array $headers = [], string $method = 'POST'): string
+    public function httpRequest(string $path, array $body, array $headers = [], string $method = 'POST'): array
     {
         $requestHeaders = $headers + [
             'Content-Type' => 'application/json',
@@ -128,20 +128,12 @@ final class UniOneClient
             $body['message']['platform'] = 'phpsdk.'.self::VERSION;
         }
 
-        try {
-            // Send request.
-            $response = $this->httpClient->request($method, $path, [
-              'headers' => $requestHeaders,
-              'json' => $body,
-            ]);
+        // Send request.
+        $response = $this->httpClient->request($method, $path, [
+          'headers' => $requestHeaders,
+          'json' => $body,
+        ]);
 
-            return $response->getBody()->getContents();
-        } catch (BadResponseException $e) {
-            // handle exception or api errors.
-            return $e->getResponse()->getBody()->getContents();
-        } catch (TransferException $e) {
-            // handle exception or api errors.
-            return $e->getMessage();
-        }
+        return \json_decode($response->getBody()->getContents(), true);
     }
 }
