@@ -138,7 +138,6 @@ final class UniOneClient
             return \json_decode($response->getBody()->getContents());
         } catch (BadResponseException $e) {
             // handle exception or api errors.
-
             return \json_decode($e->getResponse()->getBody()->getContents());
         } catch (TransferException $e) {
             // handle exception or api errors.
