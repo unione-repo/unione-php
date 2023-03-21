@@ -115,6 +115,14 @@ final class UniOneClient
         return new Api\Email($this);
     }
 
+  /**
+   * @return Api\Template
+   */
+  public function templates(): Api\Template
+  {
+      return new Api\Template($this);
+  }
+
     /**
      * @param  string               $path
      * @param  array                $body
