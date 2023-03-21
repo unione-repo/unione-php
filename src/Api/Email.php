@@ -46,4 +46,19 @@ class Email
 
       return $this->client->httpRequest($path, $body, $headers);
   }
+
+  /**
+   * Send a request to the UniOne API.
+   * @param  array                $body the request body
+   * @return array                the response with the status code
+   * @throws GuzzleException
+   * @throws BadResponseException
+   * @throws TransferException
+   */
+  public function subscribe(array $body): array
+  {
+      $path = 'email/subscribe.json';
+
+      return $this->client->httpRequest($path, $body);
+  }
 }
