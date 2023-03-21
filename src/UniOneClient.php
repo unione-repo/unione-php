@@ -22,11 +22,6 @@ final class UniOneClient
     private const VERSION = '0.0';
 
     /**
-     * The platform name and version.
-     */
-    private string $platform = 'phpsdk.'.self::VERSION;
-
-    /**
      * The HTTP client.
      *
      * @var Client
@@ -133,7 +128,7 @@ final class UniOneClient
         $response = $this->httpClient->request($method, $path, [
           'headers' => $requestHeaders,
           'json' => $body,
-          'query' => ['platform' => $this->platform],
+          'query' => ['platform' => 'phpsdk.'.self::VERSION],
         ]);
 
         return \json_decode($response->getBody()->getContents(), true);
