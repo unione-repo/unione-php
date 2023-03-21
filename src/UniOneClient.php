@@ -48,6 +48,13 @@ final class UniOneClient
     private string $apiKey;
 
     /**
+     * The timeout in seconds.
+     *
+     * @var float
+     */
+    private float $timeout;
+
+    /**
      * @param string $endpoint
      * @param string $apiKey
      * @param array  $config
@@ -77,8 +84,6 @@ final class UniOneClient
 
     /**
      * @param string $endpoint
-     *
-     * @return void
      */
     public function setEndpoint(string $endpoint): UniOneClient
     {
