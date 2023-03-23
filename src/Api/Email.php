@@ -31,8 +31,8 @@ class Email
 
   /**
    * Send an email.
-   * @param  EmailData            $mail the request parameters
-   * @return array                the response with the status code
+   * @param  EmailData       $mail the request parameters
+   * @return array           the response with the status code
    * @throws GuzzleException
    */
   public function send(EmailData $mail): array
@@ -47,7 +47,7 @@ class Email
   /**
    * Send a request to the UniOne API.
    * @param  array{'from_email': string, 'from_name': string, 'to_email': string} $params the request body containing the necessary keys
-   * @return array                    the response with the status code
+   * @return array                                                                the response with the status code
    * @throws GuzzleException
    */
   public function subscribe(array $params): array
