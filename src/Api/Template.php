@@ -8,7 +8,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Unione\UniOneClient;
 
 /**
- *  This class for sending  Template.
+ *  This class implements Template API methods.
  */
 class Template
 {
