@@ -3,20 +3,9 @@
 [![Latest Stable Version](http://poser.pugx.org/unione/unione-php/v)](https://packagist.org/packages/unione/unione-php)
 [![Total Downloads](http://poser.pugx.org/unione/unione-php/downloads)](https://packagist.org/packages/unione/unione-php)
 
-This is the UniOne PHP SDK. This SDK contains methods for easily interacting
-with the UniOne API. For additional
-examples, please see our official documentation at https://docs.unione.io/en/web-api-ref#web-api
+This SDK contains methods for easily interacting with the UniOne API: https://docs.unione.io/en/web-api-ref#web-api
 
-# Installation
-
-To install the SDK, you will need to be using [Composer](http://getcomposer.org/)
-in your project.
-If you aren't using Composer yet, it's really simple! Here's how to install
-composer:
-
-```bash
-curl -sS https://getcomposer.org/installer | php
-```
+## Installation
 
 Use Composer to install the package:
 
@@ -26,12 +15,13 @@ composer require unione/unione-php
 
 ## Usage
 
-### Here's how to send a message using the SDK:
-More about the **UniOne** send mail API [https://docs.unione.io](https://docs.unione.io/en/web-api-ref#email).
+### Send an email:
+API [documentation](https://docs.unione.io/en/web-api-ref#email).
 
 ```php
- $recipients = [
-    ["email" => "example@example.com"]
+  $recipients = [
+    ["email" => 'example@example.com'],
+    ["email" => 'another@example.com'],
   ];
 
   $body = [
@@ -45,68 +35,61 @@ More about the **UniOne** send mail API [https://docs.unione.io](https://docs.un
 
   // https://us1.unione.io/en/transactional/api/v1/ - UniOne USA & Canada Instance
   // https://eu1.unione.io/en/transactional/api/v1/ - UniOne European Instance
-  // First, instantiate the SDK with your API credentials
+  // First, instantiate the client with your API credentials.
   $client = new UniOneClient('https://eu1.unione.io/en/transactional/api/v1/', 'api-key');
-  $mailer = $client->emails();
 
-  // Now, compose and send your message.
-  $response = $mailer->send($mail);
+  // Now, compose and send your email.
+  $response = $client->emails()->send($mail);
 ```
 
-### Here's how to send a subscribe message using the SDK:
-More about the **UniOne** send mail API [https://docs.unione.io](https://docs.unione.io/en/web-api-ref#email-subscribe).
+### Send a subscribe email:
+API [documentation](https://docs.unione.io/en/web-api-ref#email-subscribe).
 
 ```php
-  $requestBody = [
+  $params = [
   "from_email" => "test@example.com",
   "from_name" => "string",
   "to_email" => "test@example.com"
   ];
 
-  $client = new UniOneClient('https://eu1.unione.io/en/transactional/api/v1/', 'api-key');
-  $mailer = $client->emails();
-
-  // Now, send your subscribe message.
-  $response = $mailer->subscribe($requestBody);
+  // Now, send your subscribe email.
+  $response = $client->emails()->subscribe($params);
 ```
 
-### Here's how to set a template using the SDK:
-More about the **UniOne** Template API [https://docs.unione.io](https://docs.unione.io/en/web-api-ref#template).
+### Set a template:
+API [documentation](https://docs.unione.io/en/web-api-ref#template).
 ```php
-  $requestBody = [
-      "template" => [
-        "name" => "First template",
-        "body" => [
-          "html" => "<b>Hello, {{to_name}}</b>",
-          "plaintext" => "Hello, {{to_name}}",
-          "amp" => "<!doctype html><html amp4email><head> <meta charset=\"utf-8\"><script async src=\"https://cdn.ampproject.org/v0.js\"></script> <style amp4email-boilerplate>body[visibility:hidden]</style></head><body> Hello, AMP4EMAIL world.</body></html>"
-        ],
-        "subject" => "Test template mail",
-        "from_email" => "test@unione.devbranch.work",
-        "from_name" => "Devbranch",
-      ]
-    ];
+  $params = [
+    "template" => [
+      "name" => "First template",
+      "body" => [
+        "html" => "<b>Hello, {{to_name}}</b>",
+        "plaintext" => "Hello, {{to_name}}",
+        "amp" => "<!doctype html><html amp4email><head> <meta charset=\"utf-8\"><script async src=\"https://cdn.ampproject.org/v0.js\"></script> <style amp4email-boilerplate>body[visibility:hidden]</style></head><body> Hello, AMP4EMAIL world.</body></html>"
+      ],
+      "subject" => "Test template mail",
+      "from_email" => "test@example.com",
+      "from_name" => "Example From",
+    ]
+  ];
 
-  $client = new UniOneClient('https://eu1.unione.io/en/transactional/api/v1/', 'api-key');
   $template = $client->templates();
 
-   // Now, set your template.
-   $response = $template->set($requestBody);
+  // Now, set your template.
+  $response = $template->set($params);
 ```
 
-### Get template using the SDK:
-More about the **UniOne** Template **get** method [https://docs.unione.io](https://docs.unione.io/en/web-api-ref#template-get).
+### Get template:
+API [documentation](https://docs.unione.io/en/web-api-ref#template-get).
 ```php
-  $client = new UniOneClient('https://eu1.unione.io/en/transactional/api/v1/', 'api-key');
   $template = $client->templates();
 
-   // Now, get your template.
-   $response = $template->get('template-id');
+  // Now, get your template.
+  $response = $template->get('template-id');
 ```
 
-### List templates using the SDK:
-
-More about the **UniOne** Template **list** method [https://docs.unione.io](https://docs.unione.io/en/web-api-ref#template-list).
+### Get templates list:
+API [documentation](https://docs.unione.io/en/web-api-ref#template-list).
 ```php
   // The query params
   $params = [
@@ -114,21 +97,19 @@ More about the **UniOne** Template **list** method [https://docs.unione.io](http
   "offset" => 0
   ];
 
-  $client = new UniOneClient('https://eu1.unione.io/en/transactional/api/v1/', 'api-key');
   $template = $client->templates();
 
-   // Now, get list your templates.
-   $response = $template->list($params);
+  // Now, get list your templates.
+  $response = $template->list($params);
 ```
 
-### Delete template using the SDK:
-More about the **UniOne** Template **delete** method [https://docs.unione.io](https://docs.unione.io/en/web-api-ref#template-delete).
+### Delete template:
+API [documentation](https://docs.unione.io/en/web-api-ref#template-delete).
 ```php
-  $client = new UniOneClient('https://eu1.unione.io/en/transactional/api/v1/', 'api-key');
   $template = $client->templates();
 
-   // Now, remove your template.
-   $response = $template->delete('template-id');
+  // Now, remove your template.
+  $response = $template->delete('template-id');
 ```
 
 ## UniOneClient methods
@@ -142,27 +123,6 @@ More about the **UniOne** Template **delete** method [https://docs.unione.io](ht
   $client = new UniOneClient('https://eu1.unione.io/en/transactional/api/v1/', 'api-key', $config = []);
 
   /**
-  * Set the API key.
-  * @param string $apiKey the API key
-  * @return $this
-  */
-  $client->setApiKey(string $apiKey);
-
-  /**
-  * @param string $endpoint
-  * @return $this
-  */
-  $client->setEndpoint(string $endpoint);
-
-  /**
-  * Create a new instance of the client.
-  *
-  * @param  ClientInterface $client
-  * @return $this
-  */
-  $client->setHttpClient(ClientInterface $client);
-
-  /**
   * @return Api\Email the Api\Email instance
   */
   $client->emails();
@@ -171,18 +131,6 @@ More about the **UniOne** Template **delete** method [https://docs.unione.io](ht
   * @return Api\Template the Api\Template instance
   */
   $client->templates();
-
-  /**
-  * @param  string $path
-  * @param  array $body
-  * @param  array $headers
-  * @param  string $method
-  * @return array
-  * @throws GuzzleException
-  * @throws BadResponseException
-  * @throws TransferException
-  */
-  $client->httpRequest(string $path, array $body, array $headers = [], string $method = 'POST');
 ```
 ## Model\Emails methods
 
@@ -278,11 +226,11 @@ More about the **UniOne** Template **delete** method [https://docs.unione.io](ht
   */
   $email->getGlobalMetadata();
 
-   /**
-   * @param array $globalMetadata
-   * @return $this
-   */
-   $email->setGlobalMetadata(array $globalMetadata);
+  /**
+  * @param array $globalMetadata
+  * @return $this
+  */
+  $email->setGlobalMetadata(array $globalMetadata);
 
   /**
   * @return array
