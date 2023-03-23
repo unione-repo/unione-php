@@ -7,10 +7,10 @@ namespace Unione\Api;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\TransferException;
-use Webmozart\Assert\Assert;
-use Webmozart\Assert\InvalidArgumentException;
 use Unione\Model\Email as EmailData;
 use Unione\UniOneClient;
+use Webmozart\Assert\Assert;
+use Webmozart\Assert\InvalidArgumentException;
 
 /**
  *  This class for sending  Mail.
@@ -51,13 +51,13 @@ class Email
 
   /**
    * Send a request to the UniOne API.
-   * @param  array                $body the request body containing the necessary keys
-   *                                    $body = [
-   *                                    "from_email" => "user@example.com",
-   *                                    "from_name" => "string",
-   *                                    "to_email" => "user@example.com"
-   *                                    ];
-   * @return array                the response with the status code
+   * @param  array                    $body the request body containing the necessary keys
+   *                                        $body = [
+   *                                        "from_email" => "user@example.com",
+   *                                        "from_name" => "string",
+   *                                        "to_email" => "user@example.com"
+   *                                        ];
+   * @return array                    the response with the status code
    * @throws GuzzleException
    * @throws BadResponseException
    * @throws TransferException
