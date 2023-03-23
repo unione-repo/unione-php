@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Unione\Api;
 
-use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\TransferException;
 use Unione\Model\Email as EmailData;
 use Unione\UniOneClient;
 use Webmozart\Assert\Assert;
-use Webmozart\Assert\InvalidArgumentException;
 
 /**
  *  This class for sending  Mail.
@@ -33,12 +30,10 @@ class Email
     }
 
   /**
-   * Send a request to the UniOne API.
+   * Send an email.
    * @param  EmailData            $mail the request parameters
    * @return array                the response with the status code
    * @throws GuzzleException
-   * @throws BadResponseException
-   * @throws TransferException
    */
   public function send(EmailData $mail): array
   {
@@ -51,26 +46,16 @@ class Email
 
   /**
    * Send a request to the UniOne API.
-   * @param  array                    $body the request body containing the necessary keys
-   *                                        $body = [
-   *                                        "from_email" => "user@example.com",
-   *                                        "from_name" => "string",
-   *                                        "to_email" => "user@example.com"
-   *                                        ];
+   * @param  array{'from_email': string, 'from_name': string, 'to_email': string} $params the request body containing the necessary keys
    * @return array                    the response with the status code
    * @throws GuzzleException
-   * @throws BadResponseException
-   * @throws TransferException
-   * @throws InvalidArgumentException
    */
-  public function subscribe(array $body): array
+  public function subscribe(array $params): array
   {
-      $path = 'email/subscribe.json';
+      Assert::email($params['from_email'], 'The from_email must be an email. Got: %s');
+      Assert::string($params['from_name'], 'The from_name must be an string. Got: %s');
+      Assert::email($params['to_email'], 'The to_email must be an email. Got: %s');
 
-      Assert::email($body['from_email'], 'The from_email must be an email. Got: %s');
-      Assert::string($body['from_name'], 'The from_name must be an string. Got: %s');
-      Assert::email($body['to_email'], 'The to_email must be an email. Got: %s');
-
-      return $this->client->httpRequest($path, $body);
+      return $this->client->httpRequest('email/subscribe.json', $params);
   }
 }
