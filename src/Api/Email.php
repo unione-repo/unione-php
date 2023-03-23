@@ -45,7 +45,7 @@ class Email
   }
 
   /**
-   * Send a request to the UniOne API.
+   * Send a subscription email.
    * @param  array{'from_email': string, 'from_name': string, 'to_email': string} $params the request body containing the necessary keys
    * @return array                                                                the response with the status code
    * @throws GuzzleException
