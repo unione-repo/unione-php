@@ -6,6 +6,7 @@ namespace Unione\Api;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Unione\UniOneClient;
+use Webmozart\Assert\Assert;
 
 /**
  *  This class implements Template API methods.
@@ -33,9 +34,19 @@ class Template
    * @return array
    * @throws GuzzleException
    */
-  public function set(array $template): array
+  public function set(array $params): array
   {
-      return $this->client->httpRequest('template/set.json', $template);
+      Assert::isArray($$params['template'], 'The template params must be an array. Got: %s');
+      Assert::string($$params['template']['name'], 'The template->name params must be an string. Got: %s');
+      Assert::isArray($$params['template']['body'], 'The template->body params must be an array. Got: %s');
+      Assert::string($$params['template']['body']['html'], 'The template->body->html params must be an string. Got: %s');
+      Assert::string($$params['template']['body']['plaintext'], 'The template->body->plaintext params must be an string. Got: %s');
+      Assert::string($$params['template']['body']['amp'], 'The template->body->amp params must be an string. Got: %s');
+      Assert::string($$params['template']['subject'], 'The template->subject params must be an string. Got: %s');
+      Assert::string($$params['template']['from_email'], 'The template->from_email params must be an string. Got: %s');
+      Assert::string($$params['template']['from_name'], 'The template->from_name params must be an string. Got: %s');
+
+      return $this->client->httpRequest('template/set.json', $params);
   }
 
   /**
@@ -61,6 +72,9 @@ class Template
    */
   public function list(array $params): array
   {
+      Assert::integer($params['limit'], 'The limit params must be an integer. Got: %s');
+      Assert::integer($params['offset'], 'The offset params must be an integer. Got: %s');
+
       return $this->client->httpRequest('template/list.json', $params);
   }
 
