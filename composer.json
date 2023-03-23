@@ -15,7 +15,8 @@
   ],
   "require": {
     "php": "^7.4 || ^8.0",
-    "guzzlehttp/guzzle": "^6.5 || ^7"
+    "guzzlehttp/guzzle": "^6.5 || ^7",
+    "webmozart/assert": "^1.9.1"
   },
   "minimum-stability": "stable",
   "config": {
