@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Unione\Api;
 
-use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\TransferException;
 use Unione\UniOneClient;
 
 /**
@@ -31,67 +29,53 @@ class Template
 
   /**
    * Set new Template.
-   * @param  array                $template
+   * @param  array{template: array{'name': string, body: array{'html': string, 'plaintext': string, 'amp': string}, 'subject': string, 'from_email': string, 'from_name': string}} $template
    * @return array
    * @throws GuzzleException
-   * @throws BadResponseException
-   * @throws TransferException
    */
   public function set(array $template): array
   {
-      $path = 'template/set.json';
-
-      return $this->client->httpRequest($path, $template);
+      return $this->client->httpRequest('template/set.json', $template);
   }
 
   /**
    * Get Template by id.
-   * @param  string               $id
+   * @param  string          $id
    * @return array
    * @throws GuzzleException
-   * @throws BadResponseException
-   * @throws TransferException
    */
   public function get(string $id): array
   {
-      $path = 'template/get.json';
-      $body = [
+      $params = [
         'id' => $id,
       ];
 
-      return $this->client->httpRequest($path, $body);
+      return $this->client->httpRequest('template/get.json', $params);
   }
 
   /**
    * Get all Templates.
-   * @param  array                $params
+   * @param  array{'limit': int, 'offset': int} $params
    * @return array
    * @throws GuzzleException
-   * @throws BadResponseException
-   * @throws TransferException
    */
   public function list(array $params): array
   {
-      $path = 'template/list.json';
-
-      return $this->client->httpRequest($path, $params);
+      return $this->client->httpRequest('template/list.json', $params);
   }
 
   /**
    * Delete Template by id.
-   * @param  string               $id
+   * @param  string          $id
    * @return array
    * @throws GuzzleException
-   * @throws BadResponseException
-   * @throws TransferException
    */
   public function delete(string $id): array
   {
-      $path = 'template/delete.json';
       $body = [
         'id' => $id,
       ];
 
-      return $this->client->httpRequest($path, $body);
+      return $this->client->httpRequest('template/delete.json', $body);
   }
 }
