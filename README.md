@@ -403,3 +403,13 @@ API [documentation](https://docs.unione.io/en/web-api-ref#template-delete).
   */
   $email->getRequestHeaders();
 ```
+### Debug requests and responses to the server:
+API [documentation](https://docs.guzzlephp.org/en/stable/testing.html#history-middleware).
+```php
+  $container = [];
+  $history = Middleware::history($container);
+  $handlerStack = HandlerStack::create();
+  $handlerStack->push($history);
+  $config = ['handler' => $handlerStack];
+  $client = new UniOneClient('endpoint', 'api-key', $config);
+```
