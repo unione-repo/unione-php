@@ -30,23 +30,26 @@ class Template
 
   /**
    * Set new Template.
-   * @param  array{template: array{'name': string, body: array{'html': string, 'plaintext': string, 'amp': string}, 'subject': string, 'from_email': string, 'from_name': string}} $template
+   * @param  array{'name': string, body: array{'html'?: string, 'plaintext'?: string, 'amp'?: string}, 'subject'?: string, 'from_email': string, 'from_name': string} $template
    * @return array
    * @throws GuzzleException
    */
   public function set(array $params): array
   {
-      Assert::isArray($$params['template'], 'The template params must be an array. Got: %s');
-      Assert::string($$params['template']['name'], 'The template->name params must be an string. Got: %s');
-      Assert::isArray($$params['template']['body'], 'The template->body params must be an array. Got: %s');
-      Assert::string($$params['template']['body']['html'], 'The template->body->html params must be an string. Got: %s');
-      Assert::string($$params['template']['body']['plaintext'], 'The template->body->plaintext params must be an string. Got: %s');
-      Assert::string($$params['template']['body']['amp'], 'The template->body->amp params must be an string. Got: %s');
-      Assert::string($$params['template']['subject'], 'The template->subject params must be an string. Got: %s');
-      Assert::string($$params['template']['from_email'], 'The template->from_email params must be an string. Got: %s');
-      Assert::string($$params['template']['from_name'], 'The template->from_name params must be an string. Got: %s');
+      if ($params['template']) {
+          $params = $params['template'];
+      }
+      Assert::isArray($params, 'The params must be an array. Got: %s');
+      Assert::string($params['name'], 'The name params must be an string. Got: %s');
+      Assert::isArray($params['body'], 'The body params must be an array. Got: %s');
+      Assert::nullOrstring($params['body']['html'], 'The body["html"] params must be an string. Got: %s');
+      Assert::nullOrstring($params['body']['plaintext'], 'The body["plaintext"] params must be an string. Got: %s');
+      Assert::nullOrstring($params['body']['amp'], 'The body["amp"] params must be an string. Got: %s');
+      Assert::nullOrstring($params['subject'], 'The subject params must be an string. Got: %s');
+      Assert::string($params['from_email'], 'The from_email params must be an string. Got: %s');
+      Assert::nullOrstring($params['from_name'], 'The from_name params must be an string. Got: %s');
 
-      return $this->client->httpRequest('template/set.json', $params);
+      return $this->client->httpRequest('template/set.json', ['template' => $params]);
   }
 
   /**
@@ -57,24 +60,17 @@ class Template
    */
   public function get(string $id): array
   {
-      $params = [
-        'id' => $id,
-      ];
-
-      return $this->client->httpRequest('template/get.json', $params);
+      return $this->client->httpRequest('template/get.json', ['id' => $id]);
   }
 
   /**
    * Get all Templates.
-   * @param  array{'limit': int, 'offset': int} $params
+   * @param  array{'limit'?: int, 'offset'?: int} $params
    * @return array
    * @throws GuzzleException
    */
-  public function list(array $params): array
+  public function list(array $params = []): array
   {
-      Assert::integer($params['limit'], 'The limit params must be an integer. Got: %s');
-      Assert::integer($params['offset'], 'The offset params must be an integer. Got: %s');
-
       return $this->client->httpRequest('template/list.json', $params);
   }
 
@@ -86,10 +82,6 @@ class Template
    */
   public function delete(string $id): array
   {
-      $body = [
-        'id' => $id,
-      ];
-
-      return $this->client->httpRequest('template/delete.json', $body);
+      return $this->client->httpRequest('template/delete.json', ['id' => $id]);
   }
 }
