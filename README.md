@@ -76,33 +76,6 @@ API [documentation](https://docs.unione.io/en/web-api-ref#template).
   $response = $client->templates()->set($params);
 ```
 
-### Get template:
-API [documentation](https://docs.unione.io/en/web-api-ref#template-get).
-```php
-  // Now, get your template.
-  $response = $client->templates()->get('template-id');
-```
-
-### Get templates list:
-API [documentation](https://docs.unione.io/en/web-api-ref#template-list).
-```php
-  // The query params
-  $params = [
-    "limit" => 50,
-    "offset" => 0
-  ];
-
-  // Now, get list your templates.
-  $response = $client->templates()->list($params);
-```
-
-### Delete template:
-API [documentation](https://docs.unione.io/en/web-api-ref#template-delete).
-```php
-  // Now, remove your template.
-  $response = $client->templates()->delete('template-id');
-```
-
 ## UniOneClient methods
 
 ```php
