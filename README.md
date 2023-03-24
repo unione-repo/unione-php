@@ -19,10 +19,9 @@ composer require unione/unione-php
 API [documentation](https://docs.unione.io/en/web-api-ref#email).
 
 ```php
-  $recipients = [
-    ["email" => 'example@example.com'],
-    ["email" => 'another@example.com'],
-  ];
+  use Unione\UniOneClient;
+
+  $recipients = ['example@example.com', 'another@example.com'];
 
   $body = [
     "html" => "<b>Test mail, {{to_name}}</b>",
@@ -31,7 +30,7 @@ API [documentation](https://docs.unione.io/en/web-api-ref#email).
   ];
 
   $mail = new Email($recipients, $body);
-  $mail->setFromEmail('test@example.com');
+  $mail->setFromEmail('test@unione.io');
 
   // https://us1.unione.io/en/transactional/api/v1/ - UniOne USA & Canada Instance
   // https://eu1.unione.io/en/transactional/api/v1/ - UniOne European Instance
@@ -47,9 +46,9 @@ API [documentation](https://docs.unione.io/en/web-api-ref#email-subscribe).
 
 ```php
   $params = [
-  "from_email" => "test@example.com",
-  "from_name" => "string",
-  "to_email" => "test@example.com"
+    "from_email" => "test@unione.io",
+    "from_name" => "string",
+    "to_email" => "test@example.com"
   ];
 
   // Now, send your subscribe email.
@@ -73,19 +72,15 @@ API [documentation](https://docs.unione.io/en/web-api-ref#template).
     ]
   ];
 
-  $template = $client->templates();
-
   // Now, set your template.
-  $response = $template->set($params);
+  $response = $client->templates()->set($params);
 ```
 
 ### Get template:
 API [documentation](https://docs.unione.io/en/web-api-ref#template-get).
 ```php
-  $template = $client->templates();
-
   // Now, get your template.
-  $response = $template->get('template-id');
+  $response = $client->templates()->get('template-id');
 ```
 
 ### Get templates list:
@@ -93,23 +88,19 @@ API [documentation](https://docs.unione.io/en/web-api-ref#template-list).
 ```php
   // The query params
   $params = [
-  "limit" => 50,
-  "offset" => 0
+    "limit" => 50,
+    "offset" => 0
   ];
 
-  $template = $client->templates();
-
   // Now, get list your templates.
-  $response = $template->list($params);
+  $response = $client->templates()->list($params);
 ```
 
 ### Delete template:
 API [documentation](https://docs.unione.io/en/web-api-ref#template-delete).
 ```php
-  $template = $client->templates();
-
   // Now, remove your template.
-  $response = $template->delete('template-id');
+  $response = $client->templates()->delete('template-id');
 ```
 
 ## UniOneClient methods
@@ -131,277 +122,6 @@ API [documentation](https://docs.unione.io/en/web-api-ref#template-delete).
   * @return Api\Template the Api\Template instance
   */
   $client->templates();
-```
-## Model\Emails methods
-
-```php
-  use Unione\Model\Email;
-
-  /**
-  * @param array $recipients
-  * @param array $body
-  */
-  $email = new Email(array $recipients = [], array $body = []);
-
-  /**
-  * @return array the recipients emails
-  */
-  $email->getRecipients();
-
-
-  /**
-  * @param array $recipients
-  * @return $this
-  */
-  $email->setRecipients(array $recipients);
-
-  /**
-  * @return string
-  */
-  $email->getTemplateId()
-
-  /**
-  * @param string $templateId
-  * @return $this
-  */
-  $email->setTemplateId(string $templateId);
-
-  /**
-  * @return array
-  */
-  $email->getTags();
-
-  /**
-  * @param array $tags
-  * @return $this
-  */
-  $email->setTags(array $tags);
-
-  /**
-  * @return int
-  */
-  $email->getSkipUnsubscribe()
-
-  /**
-  * @param int $skipUnsubscribe
-  * @return $this
-  */
-  $email->setSkipUnsubscribe(int $skipUnsubscribe);
-
-  /**
-  * @return string
-  */
-  $email->getGlobalLanguage();
-
-  /**
-  * @param string $globalLanguage
-  * @return $this
-  */
-  $email->setGlobalLanguage(string $globalLanguage);
-
-  /**
-  * @return string
-  */
-  $email->getTemplateEngine();
-
-  /**
-  * @param string $templateEngine
-  * @return $this
-  */
-  $email->setTemplateEngine(string $templateEngine);
-
-  /**
-  * @return array
-  */
-  $email->getGlobalSubstitutions();
-
-  /**
-  * @param array $globalSubstitutions
-  * @return $this
-  */
-  $email->setGlobalSubstitutions(array $globalSubstitutions);
-
-  /**
-  * @return array
-  */
-  $email->getGlobalMetadata();
-
-  /**
-  * @param array $globalMetadata
-  * @return $this
-  */
-  $email->setGlobalMetadata(array $globalMetadata);
-
-  /**
-  * @return array
-  */
-  $email->getBody();
-
-  /**
-  * @param array $body
-  * @return $this
-  */
-  $email->setBody(array $body);
-
-  /**
-  * @return string
-  */
-  $email->getSubject();
-
-  /**
-  * @param string $subject
-  * @return $this
-  */
-  $email->setSubject(string $subject);
-
-  /**
-  * @return string
-  */
-  $email->getFromEmail();
-
-  /**
-  * @param string $fromEmail
-  * @return $this
-  */
-  $email->setFromEmail(string $fromEmail);
-
-  /**
-  * @return string
-  */
-  $email->getFromName();
-
-  /**
-  * @param string $fromName
-  * @return $this
-  */
-  $email->setFromName(string $fromName);
-
-  /**
-  * @return string
-  */
-  $email->getReplyTo();
-
-  /**
-  * @param string $replyTo
-  * @return $this
-  */
-  $email->setReplyTo(string $replyTo);
-
-  /**
-  * @return int
-  */
-  $email->getTrackLinks();
-
-  /**
-  * @param int $trackLinks
-  * @return $this
-  */
-  $email->setTrackLinks(int $trackLinks);
-
-  /**
-  * @return int
-  */
-  $email->getTrackRead();
-
-  /**
-  * @param int $trackRead
-  * @return $this
-  */
-  $email->setTrackRead(int $trackRead);
-
-  /**
-  * @return array
-  */
-  $email->getHeaders();
-
-  /**
-  * @param array $headers
-  * @return $this
-  */
-  $email->setHeaders(array $headers);
-
-  /**
-  * @return array
-  */
-  $email->getAttachments();
-
-  /**
-  * @param array $attachments
-  * @return $this
-  */
-  $email->setAttachments(array $attachments);
-
-  /**
-  * @return array
-  */
-  $email->getInlineAttachments();
-
-  /**
-  * @param array $inlineAttachments
-  * @return $this
-  */
-  $email->setInlineAttachments(array $inlineAttachments);
-
-  /**
-  * @return array
-  */
-  $email->getOptions();
-
-  /**
-  * @param array $options
-  * @return $this
-  */
-  $email->setOptions(array $options);
-
-  /**
-  * @param string $platform
-  * @return $this
-  */
-  $email->setPlatform(string $platform);
-
-  /**
-  * @return string
-  */
-  $email->getPlatform();
-
-  /**
-  * Method for build message array.
-  * @return array[] The message array
-  */
-  $email->toArray();
-
-  /**
-  * Set message array
-  * @param $message
-  * @return Email
-  */
-  $email->fromArray($message);
-
-  /**
-  * Set message array message[$property] = $value
-  * @param string $property
-  * @param $value
-  * @return $this
-  */
-  $email->set(string $property, $value);
-
-  /**
-  * @param array $requestHeaders
-  * @return $this
-  */
-  $email->setRequestHeaders(array $requestHeaders);
-
-  /**
-  * @param string $key
-  * @param string $value
-  * @return $this
-  */
-  $email->setRequestHeader(string $key, string $value);
-
-  /**
-  * @return array
-  */
-  $email->getRequestHeaders();
 ```
 ### Debug requests and responses to the server:
 API [documentation](https://docs.guzzlephp.org/en/stable/testing.html#history-middleware).
