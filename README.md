@@ -64,7 +64,6 @@ Add data fields to email [documentation](https://docs.unione.io/en/simple-templa
   ];
 
   $mail = new Email($recipients, $body);
-  $mail->setTemplateEngine('simple');
   $mail->setFromEmail('test@unione.io');
 
   $client = new UniOneClient('https://eu1.unione.io/en/transactional/api/v1/', 'api-key');
