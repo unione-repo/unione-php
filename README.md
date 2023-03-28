@@ -16,7 +16,8 @@ composer require unione/unione-php
 ## Usage
 
 ### Send an email:
-API [documentation](https://docs.unione.io/en/web-api-ref#email).
+API [documentation](https://docs.unione.io/en/web-api-ref#email).\
+Add data fields to email [documentation](https://docs.unione.io/en/simple-template-engine).
 
 ```php
   use Unione\UniOneClient;
