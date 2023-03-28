@@ -16,9 +16,7 @@ composer require unione/unione-php
 ## Usage
 
 ### Send an email:
-API [documentation](https://docs.unione.io/en/web-api-ref#email).\
-Add data fields to email [documentation](https://docs.unione.io/en/simple-template-engine).
-
+API [documentation](https://docs.unione.io/en/web-api-ref#email).
 ```php
   use Unione\UniOneClient;
 
@@ -36,6 +34,41 @@ Add data fields to email [documentation](https://docs.unione.io/en/simple-templa
   // https://us1.unione.io/en/transactional/api/v1/ - UniOne USA & Canada Instance
   // https://eu1.unione.io/en/transactional/api/v1/ - UniOne European Instance
   // First, instantiate the client with your API credentials.
+  $client = new UniOneClient('https://eu1.unione.io/en/transactional/api/v1/', 'api-key');
+
+  // Now, compose and send your email.
+  $response = $client->emails()->send($mail);
+```
+
+Add data fields to email [documentation](https://docs.unione.io/en/simple-template-engine).
+```php
+  use Unione\UniOneClient;
+
+  $recipients = [
+    [
+      "email" => 'example@example.com',
+      "substitutions" => [
+        "CustomerId" => 12452,
+        "to_name" => "John Smith"
+      ],
+    ],
+    [
+      "email" => 'another@example.com',
+      "substitutions" => [
+        "CustomerId" => 452,
+        "to_name" => "Liza Frank"
+      ],
+    ]
+  ];
+
+  $body = [
+    "html" => "<b>Test mail, {{to_name}}</b>",
+  ];
+
+  $mail = new Email($recipients, $body);
+  $mail->setTemplateEngine('simple');
+  $mail->setFromEmail('test@unione.io');
+
   $client = new UniOneClient('https://eu1.unione.io/en/transactional/api/v1/', 'api-key');
 
   // Now, compose and send your email.
@@ -77,26 +110,6 @@ API [documentation](https://docs.unione.io/en/web-api-ref#template).
   $response = $client->templates()->set($params);
 ```
 
-## UniOneClient methods
-
-```php
-  /**
-  * @param string $endpoint
-  * @param string $apiKey
-  * @param array  $config the HTTP Client config
-  */
-  $client = new UniOneClient('https://eu1.unione.io/en/transactional/api/v1/', 'api-key', $config = []);
-
-  /**
-  * @return Api\Email the Api\Email instance
-  */
-  $client->emails();
-
-  /**
-  * @return Api\Template the Api\Template instance
-  */
-  $client->templates();
-```
 ### Debug requests and responses to the server:
 API [documentation](https://docs.guzzlephp.org/en/stable/testing.html#history-middleware).
 ```php
