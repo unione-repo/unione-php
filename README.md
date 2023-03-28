@@ -48,14 +48,12 @@ Add data fields to email [documentation](https://docs.unione.io/en/simple-templa
     [
       "email" => 'example@example.com',
       "substitutions" => [
-        "CustomerId" => 12452,
         "to_name" => "John Smith"
       ],
     ],
     [
       "email" => 'another@example.com',
       "substitutions" => [
-        "CustomerId" => 452,
         "to_name" => "Liza Frank"
       ],
     ]
