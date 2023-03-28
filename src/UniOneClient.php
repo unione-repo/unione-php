@@ -48,13 +48,6 @@ final class UniOneClient
     private string $apiKey;
 
     /**
-     * The timeout in seconds.
-     *
-     * @var float
-     */
-    private float $timeout;
-
-    /**
      * @param string $endpoint
      * @param string $apiKey
      * @param array  $config

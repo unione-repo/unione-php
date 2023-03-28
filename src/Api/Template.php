@@ -30,24 +30,20 @@ class Template
 
   /**
    * Set new Template.
-   * @param  array{'name': string, body: array{'html'?: string, 'plaintext'?: string, 'amp'?: string}, 'subject'?: string, 'from_email': string, 'from_name': string} $template
+   * @param array {
+   *              'name': string,
+   *              'from_email': string,
+   *          } $template
    * @return array
    * @throws GuzzleException
    */
   public function set(array $params): array
   {
-      if ($params['template']) {
+      if (!empty($params['template'])) {
           $params = $params['template'];
       }
-      Assert::isArray($params, 'The params must be an array. Got: %s');
       Assert::string($params['name'], 'The name params must be an string. Got: %s');
-      Assert::isArray($params['body'], 'The body params must be an array. Got: %s');
-      Assert::nullOrstring($params['body']['html'], 'The body["html"] params must be an string. Got: %s');
-      Assert::nullOrstring($params['body']['plaintext'], 'The body["plaintext"] params must be an string. Got: %s');
-      Assert::nullOrstring($params['body']['amp'], 'The body["amp"] params must be an string. Got: %s');
-      Assert::nullOrstring($params['subject'], 'The subject params must be an string. Got: %s');
       Assert::string($params['from_email'], 'The from_email params must be an string. Got: %s');
-      Assert::nullOrstring($params['from_name'], 'The from_name params must be an string. Got: %s');
 
       return $this->client->httpRequest('template/set.json', ['template' => $params]);
   }
