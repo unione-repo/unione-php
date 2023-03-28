@@ -72,8 +72,6 @@ final class UniOneClient
 
     /**
      * @param string $endpoint
-     *
-     * @return void
      */
     public function setEndpoint(string $endpoint): UniOneClient
     {
@@ -104,6 +102,14 @@ final class UniOneClient
     {
         return new Api\Email($this);
     }
+
+  /**
+   * @return Api\Template
+   */
+  public function templates(): Api\Template
+  {
+      return new Api\Template($this);
+  }
 
     /**
      * @param  string               $path
