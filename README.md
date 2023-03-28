@@ -37,7 +37,7 @@ API [documentation](https://docs.unione.io/en/web-api-ref#email).
   $client = new UniOneClient('https://eu1.unione.io/en/transactional/api/v1/', 'api-key');
 
   // Now, compose and send your email.
-  $response = $client->emails()->send($mail);
+  $response = $client->emails()->send($mail->toArray());
 ```
 
 Add data fields to email [documentation](https://docs.unione.io/en/simple-template-engine).
@@ -72,7 +72,7 @@ Add data fields to email [documentation](https://docs.unione.io/en/simple-templa
   $client = new UniOneClient('https://eu1.unione.io/en/transactional/api/v1/', 'api-key');
 
   // Now, compose and send your email.
-  $response = $client->emails()->send($mail);
+  $response = $client->emails()->send($mail->toArray());
 ```
 
 ### Send a subscribe email:
