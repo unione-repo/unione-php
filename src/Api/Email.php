@@ -37,8 +37,7 @@ class Email
    *                'subject': string,
    *                'from_email': string,
    *             } $params the request parameters
-   * @param array $headers the request headers
-   *
+   * @param  array           $headers the request headers
    * @return array           the response with the status code
    * @throws GuzzleException
    * @see  https://docs.unione.io/en/web-api-ref#email-send Documentation of unione email-send
@@ -73,7 +72,7 @@ class Email
    *           } $params the request body containing the necessary keys
    * @return array           the response with the status code
    * @throws GuzzleException
-   * @see https://docs.unione.io/en/web-api-ref#email-subscribe Documentation of unione email-subscribe.
+   * @see https://docs.unione.io/en/web-api-ref#email-subscribe Documentation of unione email-subscribe
    */
   public function subscribe(array $params): array
   {
