@@ -45,7 +45,7 @@ class Template
           $params = $params['template'];
       }
       Assert::string($params['name'], 'The name params must be a string. Got: %s');
-      Assert::string($params['from_email'], 'The from_email params must be a string. Got: %s');
+      Assert::email($params['from_email'], 'The from_email params must be an email. Got: %s');
 
       return $this->client->httpRequest('template/set.json', ['template' => $params]);
   }
