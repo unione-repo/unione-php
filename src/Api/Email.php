@@ -37,10 +37,10 @@ class Email
    *                'subject': string,
    *                'from_email': string,
    *             } $params the request parameters
-   * @param  array           $headers the request headers
-   * @return array           the response with the status code
+   * @param  array           $headers custom request headers
+   * @return array           API response
    * @throws GuzzleException
-   * @see  https://docs.unione.io/en/web-api-ref#email-send Documentation of unione email-send
+   * @see  https://docs.unione.io/en/web-api-ref#email-send
    */
   public function send(array $params, array $headers = []): array
   {
@@ -53,10 +53,8 @@ class Email
       Assert::string($params['subject'], 'The subject must be a string. Got: %s');
       Assert::email($params['from_email'], 'The from_email must be an email. Got: %s');
 
-      if (!empty($params['recipients'])) {
-          foreach ($params['recipients'] as $item) {
-              Assert::email($item['email'], 'The email must be an email. Got: %s');
-          }
+      foreach ($params['recipients'] as $item) {
+          Assert::email($item['email'], 'Recipient should be an array with "email" key containing a valid email address.. Got: %s');
       }
 
       return $this->client->httpRequest('email/send.json', ['message' => $params], $headers);
@@ -70,9 +68,9 @@ class Email
    *              'from_name': string,
    *              'to_email': string,
    *           } $params the request body containing the necessary keys
-   * @return array           the response with the status code
+   * @return array           API response
    * @throws GuzzleException
-   * @see https://docs.unione.io/en/web-api-ref#email-subscribe Documentation of unione email-subscribe
+   * @see https://docs.unione.io/en/web-api-ref#email-subscribe
    */
   public function subscribe(array $params): array
   {

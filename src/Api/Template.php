@@ -35,9 +35,9 @@ class Template
    *              'name': string,
    *              'from_email': string,
    *          } $template
-   * @return array
+   * @return array           API response
    * @throws GuzzleException
-   * @see https://docs.unione.io/en/web-api-ref#template-set Documentation of unione template-set
+   * @see https://docs.unione.io/en/web-api-ref#template-set
    */
   public function set(array $params): array
   {
@@ -54,9 +54,9 @@ class Template
    * Get Template by id.
    *
    * @param  string          $id
-   * @return array
+   * @return array           API response
    * @throws GuzzleException
-   * @see https://docs.unione.io/en/web-api-ref#template-get Documentation of unione template-get
+   * @see https://docs.unione.io/en/web-api-ref#template-get
    */
   public function get(string $id): array
   {
@@ -66,10 +66,10 @@ class Template
   /**
    * Get all Templates.
    *
-   * @param  array{'limit'?: int, 'offset'?: int} $params
-   * @return array
+   * @param  array {'limit'?: int, 'offset'?: int} $params
+   * @return array                                 API response
    * @throws GuzzleException
-   * @see https://docs.unione.io/en/web-api-ref#template-list Documentation of unione template-list
+   * @see https://docs.unione.io/en/web-api-ref#template-list
    */
   public function list(array $params = []): array
   {
@@ -80,9 +80,9 @@ class Template
    * Delete Template by id.
    *
    * @param  string          $id
-   * @return array
+   * @return array           API response
    * @throws GuzzleException
-   * @see https://docs.unione.io/en/web-api-ref#template-delete Documentation of unione template-delete
+   * @see https://docs.unione.io/en/web-api-ref#template-delete
    */
   public function delete(string $id): array
   {
