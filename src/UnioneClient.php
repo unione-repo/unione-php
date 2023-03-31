@@ -14,7 +14,7 @@ use Psr\Http\Message\UriInterface;
 /**
  * This class is the base class for the UniOne SDK.
  */
-final class UniOneClient
+final class UnioneClient
 {
     /**
      * The current version of the SDK.
@@ -67,7 +67,7 @@ final class UniOneClient
      * @param  string $apiKey the API key
      * @return $this
      */
-    public function setApiKey(string $apiKey): UniOneClient
+    public function setApiKey(string $apiKey): UnioneClient
     {
         $this->apiKey = $apiKey;
 
@@ -80,7 +80,7 @@ final class UniOneClient
      * @param  string $endpoint
      * @return $this
      */
-    public function setEndpoint(string $endpoint): UniOneClient
+    public function setEndpoint(string $endpoint): UnioneClient
     {
         if (!empty($endpoint)) {
             $this->endpoint = $endpoint;
@@ -95,7 +95,7 @@ final class UniOneClient
      * @param  ClientInterface $client
      * @return $this
      */
-    public function setHttpClient(ClientInterface $client): UniOneClient
+    public function setHttpClient(ClientInterface $client): UnioneClient
     {
         $this->httpClient = $client;
 
