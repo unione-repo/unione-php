@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Unione\Api;
 
 use GuzzleHttp\Exception\GuzzleException;
-use Unione\UniOneClient;
+use Unione\UnioneClient;
 use Webmozart\Assert\Assert;
 
 /**
@@ -14,16 +14,16 @@ use Webmozart\Assert\Assert;
 class Template
 {
     /**
-     * The UniOneClient client.
+     * The UnioneClient client.
      *
-     * @var UniOneClient
+     * @var UnioneClient
      */
-    private UniOneClient $client;
+    private UnioneClient $client;
 
     /**
-     * @param UniOneClient $client
+     * @param UnioneClient $client
      */
-    public function __construct(UniOneClient $client)
+    public function __construct(UnioneClient $client)
     {
         $this->client = $client;
     }
