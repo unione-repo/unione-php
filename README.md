@@ -15,44 +15,21 @@ composer require unione/unione-php
 
 ## Usage
 
-### Send an email:
-API [documentation](https://docs.unione.io/en/web-api-ref#email).
+### Send email:
 ```php
-  use Unione\UniOneClient;
-
-  $recipients = ['example@example.com', 'another@example.com'];
-
-  $body = [
-    "html" => "<b>Test mail, {{to_name}}</b>",
-    "plaintext" => "Hello, {{to_name}}",
-    "amp" => "<!doctype html><html amp4email><head> <meta charset=\"utf-8\"><script async src=\"https://cdn.ampproject.org/v0.js\"></script> <style amp4email-boilerplate>body[visibility:hidden]</style></head><body> Hello, AMP4EMAIL world.</body></html>"
-  ];
-
-  $mail = new Email($recipients, $body);
-  $mail->setFromEmail('test@unione.io');
-
-  // https://us1.unione.io/en/transactional/api/v1/ - UniOne USA & Canada Instance
-  // https://eu1.unione.io/en/transactional/api/v1/ - UniOne European Instance
-  // First, instantiate the client with your API credentials.
-  $client = new UniOneClient('https://eu1.unione.io/en/transactional/api/v1/', 'api-key');
-
-  // Now, compose and send your email.
-  $response = $client->emails()->send($mail->toArray());
-```
-
-Add data fields to email [documentation](https://docs.unione.io/en/simple-template-engine).
-```php
-  use Unione\UniOneClient;
+  $client = new Unione\UnioneClient('YOUR-API-KEY');
+  // By default, EU instance is used. You can pass another instance as 2nd argument.
+  $client = new Unione\UnioneClient('YOUR-API-KEY', 'https://us1.unione.io/en/transactional/api/v1/');
 
   $recipients = [
     [
-      "email" => 'example@example.com',
+      "email" => 'john@example.com',
       "substitutions" => [
         "to_name" => "John Smith"
       ],
     ],
     [
-      "email" => 'another@example.com',
+      "email" => 'liza@example.com',
       "substitutions" => [
         "to_name" => "Liza Frank"
       ],
@@ -61,34 +38,40 @@ Add data fields to email [documentation](https://docs.unione.io/en/simple-templa
 
   $body = [
     "html" => "<b>Test mail, {{to_name}}</b>",
+    "plaintext" => "Hello, {{to_name}}",
+    "amp" => "<!doctype html><html amp4email><head> <meta charset=\"utf-8\"><script async src=\"https://cdn.ampproject.org/v0.js\"></script> <style amp4email-boilerplate>body[visibility:hidden]</style></head><body> Hello, AMP4EMAIL world.</body></html>"
   ];
 
-  $mail = new Email($recipients, $body);
-  $mail->setFromEmail('test@unione.io');
+  // You can use email object can be used to prepare the message array.
+  // But the email send method accepts an array, that can be composed without
+  // SDK utils.
+  $mail = new Unione\Model\Email($recipients, $body);
+  $mail->setFromEmail('user@example.com');
 
-  $client = new UniOneClient('https://eu1.unione.io/en/transactional/api/v1/', 'api-key');
-
-  // Now, compose and send your email.
   $response = $client->emails()->send($mail->toArray());
 ```
+See [API documentation](https://docs.unione.io/en/web-api-ref#email) for more details.
 
-### Send a subscribe email:
-API [documentation](https://docs.unione.io/en/web-api-ref#email-subscribe).
+See [template engine documentation](https://docs.unione.io/en/simple-template-engine) for substitutions details.
+
+### Send subscribe email:
 
 ```php
-  $params = [
-    "from_email" => "test@unione.io",
-    "from_name" => "string",
-    "to_email" => "test@example.com"
-  ];
+  $client = new Unione\UnioneClient('YOUR-API-KEY');
 
-  // Now, send your subscribe email.
+  $params = [
+    "from_email" => "john@example.com",
+    "from_name" => "John Smith",
+    "to_email" => "user@example.com"
+  ];
   $response = $client->emails()->subscribe($params);
 ```
+API [documentation](https://docs.unione.io/en/web-api-ref#email-subscribe).
 
-### Set a template:
-API [documentation](https://docs.unione.io/en/web-api-ref#template).
+### Set template:
 ```php
+  $client = new Unione\UnioneClient('YOUR-API-KEY');
+
   $params = [
     "template" => [
       "name" => "First template",
@@ -102,41 +85,54 @@ API [documentation](https://docs.unione.io/en/web-api-ref#template).
       "from_name" => "Example From",
     ]
   ];
-
-  // Now, set your template.
   $response = $client->templates()->set($params);
 ```
+API [documentation](https://docs.unione.io/en/web-api-ref#template).
+
 ### Get template:
-API [documentation](https://docs.unione.io/en/web-api-ref#template-get).
 ```php
-  // Now, get your template.
-  $response = $client->templates()->get('template-id');
+  $client = new Unione\UnioneClient('YOUR-API-KEY');
+  $response = $client->templates()->get('YOUR-TEMPLATE-ID');
 ```
+API [documentation](https://docs.unione.io/en/web-api-ref#template-get).
+
 ### Get templates list:
-API [documentation](https://docs.unione.io/en/web-api-ref#template-list).
 ```php
-  // The query params
+  $client = new Unione\UnioneClient('YOUR-API-KEY');
+
   $params = [
     "limit" => 50,
     "offset" => 0
   ];
-
-  // Now, get list your templates.
   $response = $client->templates()->list($params);
 ```
+API [documentation](https://docs.unione.io/en/web-api-ref#template-list).
+
 ### Delete template:
-API [documentation](https://docs.unione.io/en/web-api-ref#template-delete).
 ```php
-  // Now, remove your template.
-  $response = $client->templates()->delete('template-id');
+  $client = new Unione\UnioneClient('YOUR-API-KEY');
+  $response = $client->templates()->delete('YOUR-TEMPLATE-ID');
 ```
-### Debug requests and responses to the server:
-API [documentation](https://docs.guzzlephp.org/en/stable/testing.html#history-middleware).
+API [documentation](https://docs.unione.io/en/web-api-ref#template-delete).
+
+## Additional information
+
+### Set Guzzle HTTP client config
+
+Unione client accepts an array with Guzzle configuration as a third argument.
+When creating a client, you can pass some additional options (i.e. connect_timeout)
+to apply this to all requests.
+
+Here is a more advanced example of adding a history handler to save outcoming
+requests and responses.
+
 ```php
   $container = [];
   $history = Middleware::history($container);
   $handlerStack = HandlerStack::create();
   $handlerStack->push($history);
   $config = ['handler' => $handlerStack];
-  $client = new UniOneClient('endpoint', 'api-key', $config);
+  $client = new Unione\UnioneClient('YOUR-API-KEY', '', $config);
 ```
+
+See [Guzzle documentation](https://docs.guzzlephp.org/en/stable/request-options.html).
