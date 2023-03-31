@@ -24,9 +24,9 @@ final class UniOneClient
     /**
      * The HTTP client.
      *
-     * @var Client
+     * @var ClientInterface
      */
-    private Client $httpClient;
+    private ClientInterface $httpClient;
 
     /**
      * UniOne Instance.
@@ -43,25 +43,29 @@ final class UniOneClient
     private string $apiKey;
 
     /**
-     * @param string $endpoint
      * @param string $apiKey
+     * @param string $endpoint
      * @param array  $config
      */
-    public function __construct(string $endpoint, string $apiKey, array $config = [])
+    public function __construct(string $apiKey, string $endpoint = '', array $config = [])
     {
-        $this->setEndpoint($endpoint)->setApiKey($apiKey);
-        $defaults = [
-          'timeout' => 5,
-          'base_uri' => $this->endpoint,
-        ];
-        $client = new Client(\array_merge($defaults, $config));
+        $this->setApiKey($apiKey);
+        if (!empty($endpoint)) {
+            $this->setEndpoint($endpoint);
+        }
+        $config = [
+            'timeout' => 5,
+            'base_uri' => $this->endpoint,
+          ] + $config;
+        $client = new Client($config);
         $this->setHttpClient($client);
     }
 
     /**
      * Set the API key.
      *
-     * @param string $apiKey the API key
+     * @param  string $apiKey the API key
+     * @return $this
      */
     public function setApiKey(string $apiKey): UniOneClient
     {
@@ -71,7 +75,10 @@ final class UniOneClient
     }
 
     /**
-     * @param string $endpoint
+     * Set the endpoint.
+     *
+     * @param  string $endpoint
+     * @return $this
      */
     public function setEndpoint(string $endpoint): UniOneClient
     {
@@ -103,13 +110,13 @@ final class UniOneClient
         return new Api\Email($this);
     }
 
-  /**
-   * @return Api\Template
-   */
-  public function templates(): Api\Template
-  {
-      return new Api\Template($this);
-  }
+    /**
+     * @return Api\Template
+     */
+    public function templates(): Api\Template
+    {
+        return new Api\Template($this);
+    }
 
     /**
      * @param  string               $path
