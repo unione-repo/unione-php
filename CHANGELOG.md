@@ -5,7 +5,7 @@
 
 ### ⚠ BREAKING CHANGES
 
-* constructor arguments order was changed
+* Constructor arguments order was changed
 * Changed input parameter in send() method.
 
 ### Features
@@ -32,17 +32,11 @@
 * Convert recipients array ([831b553](https://github.com/unione-repo/unione-php/commit/831b553b007e837972a133b29b68a5aa60ab31b4))
 * Corrected the code according to comments ([933e771](https://github.com/unione-repo/unione-php/commit/933e7713b7111a81be8b59a86e46795f28779808))
 * Fix code style ([e198dd2](https://github.com/unione-repo/unione-php/commit/e198dd24b25e56c07c41fd5fb51cbbfeb6b39d6f))
-* Fix code virable name bug ([f0bc498](https://github.com/unione-repo/unione-php/commit/f0bc4986d1ccf2e43f3bfa3c50cef05bcfd1d785))
+* Fix code variable name bug ([f0bc498](https://github.com/unione-repo/unione-php/commit/f0bc4986d1ccf2e43f3bfa3c50cef05bcfd1d785))
 * Fix release-please.yml file ([f577d74](https://github.com/unione-repo/unione-php/commit/f577d740612c3c5760188707b6f8034ea07fb216))
 * Fix return value Email::send method. UniOneClient::httpRequest now return array or throw GuzzleException ([066196a](https://github.com/unione-repo/unione-php/commit/066196a1517887abd1c6e796729f3526201129ae))
 * Fix return value UniOneClient::httpRequest is now associative array ([b475fd0](https://github.com/unione-repo/unione-php/commit/b475fd0426eb44eb9e1021954b6f9be2d5037b67))
 * Update php-cs-fixer to version 3.15 ([ace4195](https://github.com/unione-repo/unione-php/commit/ace4195709f89207d6c869dc61e2dac22d7d8226))
-
-
-### Miscellaneous Chores
-
-* Rebase parent branch to PSUO-17_Add_platform_name_to_GET_param ([c533e72](https://github.com/unione-repo/unione-php/commit/c533e72d4ed9ffa7921213981cc46388da01fa5b))
-* **releases/1.0.0:** release 0.0.1 ([18c87fd](https://github.com/unione-repo/unione-php/commit/18c87fdf099206126b36454d20b178e1a93f1baf))
 
 
 ### Code Refactoring
