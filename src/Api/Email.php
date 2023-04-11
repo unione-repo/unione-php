@@ -49,9 +49,11 @@ class Email
       }
 
       Assert::isArray($params['recipients'], 'The recipients params must be an array. Got: %s');
-      Assert::isArray($params['body'], 'The body params must be an array. Got: %s');
-      Assert::string($params['subject'], 'The subject must be a string. Got: %s');
-      Assert::email($params['from_email'], 'The from_email must be an email. Got: %s');
+      if (empty($params['template_id'])) {
+          Assert::isArray($params['body'], 'The body params must be an array. Got: %s');
+          Assert::string($params['subject'], 'The subject must be a string. Got: %s');
+          Assert::email($params['from_email'], 'The from_email must be an email. Got: %s');
+      }
 
       foreach ($params['recipients'] as $item) {
           Assert::email($item['email'], 'Recipient should be an array with "email" key containing a valid email address.. Got: %s');
