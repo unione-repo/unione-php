@@ -118,6 +118,14 @@ final class UnioneClient
         return new Api\Template($this);
     }
 
+  /**
+   * @return Api\Webhook
+   */
+  public function webhooks(): Api\Webhook
+  {
+      return new Api\Webhook($this);
+  }
+
     /**
      * @param  string               $path
      * @param  array                $body
