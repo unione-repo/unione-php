@@ -33,7 +33,7 @@ class Webhook
      *
      * @param array {
      *              'url': string
-     *              'events': array {'email_status': array}
+     *              'events': array
      *            } $params the request parameters
      *
      * @return array           API response
@@ -43,7 +43,7 @@ class Webhook
     public function set(array $params): array
     {
         Assert::string($params['url'], 'The url must be a string. Got: %s');
-        Assert::isNonEmptyList($params['events']['email_status'], 'The email_status must be a not empty array. Got: %s');
+        Assert::isNonEmptyList($params['events']['email_status'], 'The email_status must be a not empty array and should contain at least one of the events to subscribe. Got: %s');
 
         return $this->client->httpRequest('webhook/set.json', $params);
     }
@@ -51,21 +51,23 @@ class Webhook
   /**
    * Gets properties of a webhook.
    *
-   * @param array {'url': string} $params the request parameters
+   * @param string $url the request parameter
    *
    * @return array           API response
    * @throws GuzzleException
    * @see  https://docs.unione.io/en/web-api-ref#webhook-get
    */
-  public function get(array $params): array
+  public function get(string $url): array
   {
-      Assert::string($params['url'], 'The url must be a string. Got: %s');
+      Assert::string($url, 'The url must be a string. Got: %s');
 
-      return $this->client->httpRequest('webhook/get.json', $params);
+      return $this->client->httpRequest('webhook/get.json', ['url' => $url]);
   }
 
   /**
    * List all or some webhook.
+   *
+   * @param array $params the request parameters
    *
    * @return array           API response
    * @throws GuzzleException
@@ -77,39 +79,39 @@ class Webhook
   }
 
   /**
-   * Deletes an event notification handler.
+   * Deletes a webhook.
    *
-   * @param array {'url': string} $params the request parameters
+   * @param string $url the request parameter
    *
    * @return array           API response
    * @throws GuzzleException
    * @see  https://docs.unione.io/en/web-api-ref#webhook-delete
    */
-  public function delete(array $params): array
+  public function delete(string $url): array
   {
-      Assert::string($params['url'], 'The url must be a string. Got: %s');
+      Assert::string($url, 'The url must be a string. Got: %s');
 
-      return $this->client->httpRequest('webhook/delete.json', $params);
+      return $this->client->httpRequest('webhook/delete.json', ['url' => $url]);
   }
 
   /**
-   * Validate hook response message.
+   * Verify webhook request message integrity.
    *
-   * @param string $message_body webhook request body
+   * @param string $body webhook request body
    *
    * @return bool
    */
-  public function validate(string $message_body): bool
+  public function verify(string $body): bool
   {
-      if (empty($message_body)) {
+      if (empty($body)) {
           return false;
       }
 
-      $params = \json_decode($message_body, true);
+      $params = \json_decode($body, true);
       $auth = $params['auth'];
       $params['auth'] = $this->client->getApiKey();
       $md5_body = \md5(\json_encode($params));
 
-      return $auth == $md5_body;
+      return $auth === $md5_body;
   }
 }
