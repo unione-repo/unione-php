@@ -74,6 +74,16 @@ final class UnioneClient
         return $this;
     }
 
+  /**
+   * Get the API key.
+   *
+   * @return string
+   */
+  public function getApiKey(): string
+  {
+      return $this->apiKey;
+  }
+
     /**
      * Set the endpoint.
      *
