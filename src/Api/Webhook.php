@@ -44,6 +44,7 @@ class Webhook
     {
         Assert::string($params['url'], 'The url must be a string. Got: %s');
         Assert::isNonEmptyList($params['events']['email_status'], 'The email_status must be a not empty array. Got: %s');
+
         return $this->client->httpRequest('webhook/set.json', $params);
     }
 
@@ -94,7 +95,7 @@ class Webhook
   /**
    * Validate hook response message.
    *
-   * @param string $message_body
+   * @param string $message_body webhook request body
    *
    * @return bool
    */
