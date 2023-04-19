@@ -81,7 +81,7 @@ class Webhook
   /**
    * Deletes a webhook.
    *
-   * @param string $url the request parameter
+   * @param string $url URL of webhook that be removed
    *
    * @return array           API response
    * @throws GuzzleException
@@ -107,6 +107,7 @@ class Webhook
           return false;
       }
 
+      // Changes auth array key to API key, encode the array to md5 and check previous auth hash and received hash if they equal, the request message is integrity
       $params = \json_decode($body, true);
       $auth = $params['auth'];
       $params['auth'] = $this->client->getApiKey();
