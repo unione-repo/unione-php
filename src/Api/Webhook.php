@@ -65,7 +65,7 @@ class Webhook
   }
 
   /**
-   * List all or some webhook.
+   * List all or some webhooks.
    *
    * @param array $params the request parameters
    *
