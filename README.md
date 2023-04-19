@@ -115,6 +115,15 @@ API [documentation](https://docs.unione.io/en/web-api-ref#template-list).
 ```
 API [documentation](https://docs.unione.io/en/web-api-ref#template-delete).
 
+### httpRequest method:
+If have methods that are not implemented in API yet, can be accessed via the generic httpRequest method
+
+```php
+  $client = new Unione\UnioneClient('YOUR-API-KEY');
+  $response = $client->httpRequest('email/subscribe.json', array $request_body);
+```
+
+
 ## Additional information
 
 ### Set Guzzle HTTP client config
