@@ -117,14 +117,15 @@ API [documentation](https://docs.unione.io/en/web-api-ref#template-delete).
 
 ## Additional information
 
-### httpRequest method enable to send requests that have not been implemented in API yet:
+### Generic API method
+
+For API methods, that are not implemented in SDK yet, you can use `UnioneClient::httpRequest()`.
+Here is an example for "set" suppression method:
 
 ```php
-  // For examle set suppression
   $client = new Unione\UnioneClient('YOUR-API-KEY');
   $response = $client->httpRequest('suppression/set.json', ["email" => "user@example.com", "cause" => "unsubscribed"]);
 ```
-
 
 ### Set Guzzle HTTP client config
 
