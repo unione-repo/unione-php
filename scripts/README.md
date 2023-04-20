@@ -9,7 +9,7 @@ With the help of this script, you can test Email send and Webhook set methods:
 
 
 ## How it works
-* Go to the YOUR-PROJECT/vendor/unione/unione-php/tests/scripts folder
+* Go to the YOUR-PROJECT/vendor/unione/unione-php/scripts folder
 * Rename example.config.php file to config.php
 * Fill your data in config array
 * Go to the YOUR-PROJECT/vendor/unione/unione-php
