@@ -171,16 +171,16 @@ API [documentation](https://docs.unione.io/en/web-api-ref#webhook-list).
 ```
 API [documentation](https://docs.unione.io/en/web-api-ref#webhook-delete).
 
-### httpRequest method:
-If have methods that are not implemented in API yet, can be accessed via the generic httpRequest method
+## Additional information
+
+### httpRequest method enable to send requests that have not been implemented in API yet:
 
 ```php
+  // For examle set suppression
   $client = new Unione\UnioneClient('YOUR-API-KEY');
-  $response = $client->httpRequest('email/subscribe.json', array $request_body);
+  $response = $client->httpRequest('suppression/set.json', ["email" => "user@example.com", "cause" => "unsubscribed"]);
 ```
 
-
-## Additional information
 
 ### Set Guzzle HTTP client config
 
