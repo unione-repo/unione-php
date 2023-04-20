@@ -137,6 +137,19 @@ API [documentation](https://docs.unione.io/en/web-api-ref#template-delete).
 ```
 API [documentation](https://docs.unione.io/en/web-api-ref#webhook-set).
 
+The specified URL will receive a request from Unione. See more information about request data in API [documentation](https://docs.unione.io/en/web-api-ref#callback-format).
+
+This is how you can check the message integrity in your callback handler:
+
+```php
+
+$client = new Unione\UnioneClient('YOUR-API-KEY');
+// $body contains a callback request body.
+if ($client->webhooks()->verify($body) === TRUE) {
+  // The webhook is confirmed, result can be processed.
+}
+```
+
 ### Get webhook:
 ```php
   $client = new Unione\UnioneClient('YOUR-API-KEY');
@@ -157,13 +170,6 @@ API [documentation](https://docs.unione.io/en/web-api-ref#webhook-list).
   $response = $client->webhooks()->delete('YOUR-WEBHOOK-URL');
 ```
 API [documentation](https://docs.unione.io/en/web-api-ref#webhook-delete).
-
-### Verify webhook request message integrity:
-```php
-  $client = new Unione\UnioneClient('YOUR-API-KEY');
-  $response = $client->webhooks()->verify('WEBHOOK-REQUEST-TO-ROUTE-JSON');
-```
-
 
 ## Additional information
 
