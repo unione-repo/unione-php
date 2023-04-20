@@ -173,6 +173,16 @@ API [documentation](https://docs.unione.io/en/web-api-ref#webhook-delete).
 
 ## Additional information
 
+### Generic API method
+
+For API methods, that are not implemented in SDK yet, you can use `UnioneClient::httpRequest()`.
+Here is an example for "set" suppression method:
+
+```php
+  $client = new Unione\UnioneClient('YOUR-API-KEY');
+  $response = $client->httpRequest('suppression/set.json', ["email" => "user@example.com", "cause" => "unsubscribed"]);
+```
+
 ### Set Guzzle HTTP client config
 
 Unione client accepts an array with Guzzle configuration as a third argument.
