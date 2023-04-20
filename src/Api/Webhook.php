@@ -107,7 +107,11 @@ class Webhook
           return false;
       }
 
-      // Changes auth array key to API key, encode the array to md5 and check previous auth hash and received hash if they equal, the request message is integrity
+      // Body "auth" array key contains MD5-hash of the whole message, in which
+      // the value “auth” contained API key of the user/project.
+      // In order to check the integrity, we should set the API key as "auth"
+      // parameter and verify it with original "auth" value.
+      // See: https://docs.unione.io/en/web-api-ref#callback-format
       $params = \json_decode($body, true);
       $auth = $params['auth'];
       $params['auth'] = $this->client->getApiKey();
