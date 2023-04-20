@@ -74,6 +74,16 @@ final class UnioneClient
         return $this;
     }
 
+  /**
+   * Get the API key.
+   *
+   * @return string
+   */
+  public function getApiKey(): string
+  {
+      return $this->apiKey;
+  }
+
     /**
      * Set the endpoint.
      *
@@ -117,6 +127,14 @@ final class UnioneClient
     {
         return new Api\Template($this);
     }
+
+  /**
+   * @return Api\Webhook
+   */
+  public function webhooks(): Api\Webhook
+  {
+      return new Api\Webhook($this);
+  }
 
     /**
      * @param  string               $path
