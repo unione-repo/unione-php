@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UnioneScripts;
 
+use Composer\IO\IOInterface;
 use Composer\Script\Event;
 use Unione\UnioneClient;
 
@@ -63,7 +64,7 @@ class UnioneApiChecker
             $api_checker = new UnioneApiChecker($args, $config);
             $api_checker->sendMail();
             $api_checker->setWebhook();
-            $api_checker->showMessages();
+            $api_checker->showMessages($io);
         }
 
         /**
@@ -103,20 +104,20 @@ class UnioneApiChecker
       }
 
   /**
-   * Shows console message.
+   * Shows error messages in console.
    *
    * @return void
    */
-  private function showMessages()
+  private function showMessages(IOInterface $io)
   {
       if (!empty($this->messages)) {
           foreach ($this->messages as $item) {
-              echo $item.PHP_EOL;
+              $io->write($item.PHP_EOL);
           }
       }
 
       $exit_status = \count($this->messages);
-      \printf('Exiting with a code of %d'.PHP_EOL, $exit_status);
+      $io->write("Exiting with a code of $exit_status".PHP_EOL);
       exit($exit_status);
   }
 }
