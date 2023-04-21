@@ -21,14 +21,14 @@ class UnioneApiChecker
      *
      * @var array
      */
-    private $config;
+    private array $config;
 
     /**
      * The array with error messages.
      *
      * @var array
      */
-    private $messages = [];
+    private array $messages = [];
 
     public function __construct(array $args, array $config)
     {
@@ -46,14 +46,15 @@ class UnioneApiChecker
         public static function testApi(Event $event)
         {
             $args = $event->getArguments();
+            $io = $event->getIO();
 
-            if (empty($args) || \count($args) < 2) {
-                echo 'Please enter HOSTNAME and APIKEY parameters. Valid command is: composer test UNIONE-HOSTNAME UNIONE-API-KEY'.PHP_EOL;
+            if (\count($args) < 2) {
+                $io->write('Please enter HOSTNAME and APIKEY parameters. Example: composer test UNIONE-HOSTNAME UNIONE-API-KEY'.PHP_EOL);
                 exit(1);
             }
 
-            if (!\file_exists(__DIR__.'/config.php')) {
-                echo 'Please rename example.config.php to config.php and enter your information to $parameters array. Details on README.md file'.PHP_EOL;
+            if (!\file_exists(__DIR__ . '/config.php')) {
+                $io->write('Please rename example.config.php to config.php and enter your information to $parameters array. Details on README.md file'.PHP_EOL);
                 exit(1);
             }
 
@@ -61,26 +62,8 @@ class UnioneApiChecker
 
             $api_checker = new UnioneApiChecker($args, $config);
             $api_checker->sendMail();
-            $api_checker->setHook();
+            $api_checker->setWebhook();
             $api_checker->showMessages();
-        }
-
-        /**
-         * Shows console message.
-         *
-         * @return void
-         */
-        public function showMessages()
-        {
-            if (!empty($this->messages)) {
-                foreach ($this->messages as $item) {
-                    echo $item.PHP_EOL;
-                }
-            }
-
-            $exit_status = \count($this->messages);
-            \printf('Exiting with a code of %d'.PHP_EOL, $exit_status);
-            exit($exit_status);
         }
 
         /**
@@ -91,10 +74,12 @@ class UnioneApiChecker
         public function sendMail()
         {
             if (!empty($this->config['email']['send'])) {
-                try {
-                    $data = $this->client->emails()->send($this->config['email']['send']);
-                } catch (\Exception $error) {
-                    $this->messages[] = $error->getMessage();
+                foreach ($this->config['email']['send'] as $message) {
+                    try {
+                        $this->client->emails()->send($message);
+                    } catch (\Exception $error) {
+                        $this->messages[] = $error->getMessage();
+                    }
                 }
             }
         }
@@ -104,14 +89,34 @@ class UnioneApiChecker
        *
        * @return void
        */
-      public function setHook()
+      public function setWebhook()
       {
           if (!empty($this->config['webhook']['set'])) {
-              try {
-                  $data = $this->client->webhooks()->set($this->config['webhook']['set']);
-              } catch (\Exception $error) {
-                  $this->messages[] = $error->getMessage();
+              foreach ($this->config['webhook']['set'] as $webhook) {
+                  try {
+                      $this->client->webhooks()->set($webhook);
+                  } catch (\Exception $error) {
+                      $this->messages[] = $error->getMessage();
+                  }
               }
           }
       }
+
+  /**
+   * Shows console message.
+   *
+   * @return void
+   */
+  private function showMessages()
+  {
+      if (!empty($this->messages)) {
+          foreach ($this->messages as $item) {
+              echo $item.PHP_EOL;
+          }
+      }
+
+      $exit_status = \count($this->messages);
+      \printf('Exiting with a code of %d'.PHP_EOL, $exit_status);
+      exit($exit_status);
+  }
 }
