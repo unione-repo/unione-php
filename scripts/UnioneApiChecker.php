@@ -50,12 +50,12 @@ class UnioneApiChecker
             $io = $event->getIO();
 
             if (\count($args) < 2) {
-                $io->write('Please enter HOSTNAME and APIKEY parameters. Example: composer test UNIONE-HOSTNAME UNIONE-API-KEY');
+                $io->write('Please enter HOSTNAME and APIKEY parameters. Example: composer test UNIONE-HOSTNAME UNIONE-API-KEY', true);
                 exit(1);
             }
 
             if (!\file_exists(__DIR__ . '/config.php')) {
-                $io->write('Please rename example.config.php to config.php and enter your information to $parameters array. Details on README.md file');
+                $io->write('Please rename example.config.php to config.php and enter your information to $parameters array. Details on README.md file', true);
                 exit(1);
             }
 
@@ -113,12 +113,12 @@ class UnioneApiChecker
   {
       if (!empty($this->messages)) {
           foreach ($this->messages as $item) {
-              $io->write($item);
+              $io->write($item, true);
           }
       }
 
       $exit_status = \count($this->messages);
-      $io->write("Exiting with a code of $exit_status");
+      $io->write("Exiting with a code of $exit_status", true);
 
       return $exit_status;
   }
