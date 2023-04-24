@@ -54,7 +54,7 @@ class UnioneApiChecker
                 exit(1);
             }
 
-            if (!\file_exists(__DIR__ . '/config.php')) {
+            if (!\file_exists(__DIR__.'/config.php')) {
                 $io->write('Please rename example.config.php to config.php and enter your information to $parameters array. Details on README.md file', true);
                 exit(1);
             }
@@ -65,6 +65,7 @@ class UnioneApiChecker
             $api_checker->sendMail();
             $api_checker->setWebhook();
             $exit_status = $api_checker->showMessages($io);
+            $io->write("Exiting with a code of $exit_status", true);
             exit($exit_status);
         }
 
@@ -107,7 +108,7 @@ class UnioneApiChecker
   /**
    * Shows error messages in console.
    *
-   * @return int;
+   * @return int an errors count
    */
   private function showMessages(IOInterface $io): int
   {
@@ -117,9 +118,6 @@ class UnioneApiChecker
           }
       }
 
-      $exit_status = \count($this->messages);
-      $io->write("Exiting with a code of $exit_status", true);
-
-      return $exit_status;
+      return \count($this->messages);
   }
 }
