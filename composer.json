@@ -24,10 +24,15 @@
   },
   "autoload": {
     "psr-4": {
-      "Unione\\": "src"
+      "Unione\\": "src",
+      "UnioneScripts\\": "scripts"
     }
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.15"
+  },
+  "scripts": {
+    "test": "UnioneScripts\\UnioneApiChecker::testApi"
   }
 }
+
