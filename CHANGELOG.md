@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.0](https://github.com/unione-repo/unione-php/compare/v1.0.0...v1.1.0) (2023-04-24)
+
+
+### Features
+
+* Added test script for Unione email send and webhook set methods test ([b4d0ffd](https://github.com/unione-repo/unione-php/commit/b4d0ffd6656aba438b6f8b22a5d489ca85f911e4))
+* Added webhook validate method. To the UnioneClient added getApiKey method ([82b5165](https://github.com/unione-repo/unione-php/commit/82b51659f70a31379e2c80a43325f35bfff71bad))
+* Added webhook validate method. To the UnioneClient added getApiKey method ([72ba02c](https://github.com/unione-repo/unione-php/commit/72ba02cc5553421cbded9c963a6d70b78bfc9f4a))
+* Added Webhooks API supports to UnioneClient ([c3b7d55](https://github.com/unione-repo/unione-php/commit/c3b7d554a61ff36ab3bfe87dfd974e98b5f810b0))
+* Added Webhooks API supports to UnioneClient ([64309d3](https://github.com/unione-repo/unione-php/commit/64309d375f19bc76026d013bae7161d2d846da55))
+
+
+### Bug Fixes
+
+* Allow empty body, subject, from_email values when the template is set. ([06a0a11](https://github.com/unione-repo/unione-php/commit/06a0a11ddf1472f3789d3f21cd4ed11c7d68e249))
+
 ## [1.0.0](https://github.com/unione-repo/unione-php/compare/v0.0.1...v1.0.0) (2023-04-03)
 
 
