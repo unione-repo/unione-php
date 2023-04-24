@@ -50,12 +50,12 @@ class UnioneApiChecker
             $io = $event->getIO();
 
             if (\count($args) < 2) {
-                $io->write('Please enter HOSTNAME and APIKEY parameters. Example: composer test UNIONE-HOSTNAME UNIONE-API-KEY'.PHP_EOL);
+                $io->write('Please enter HOSTNAME and APIKEY parameters. Example: composer test UNIONE-HOSTNAME UNIONE-API-KEY');
                 exit(1);
             }
 
             if (!\file_exists(__DIR__ . '/config.php')) {
-                $io->write('Please rename example.config.php to config.php and enter your information to $parameters array. Details on README.md file'.PHP_EOL);
+                $io->write('Please rename example.config.php to config.php and enter your information to $parameters array. Details on README.md file');
                 exit(1);
             }
 
@@ -64,7 +64,8 @@ class UnioneApiChecker
             $api_checker = new UnioneApiChecker($args, $config);
             $api_checker->sendMail();
             $api_checker->setWebhook();
-            $api_checker->showMessages($io);
+            $exit_status = $api_checker->showMessages($io);
+            exit($exit_status);
         }
 
         /**
@@ -106,18 +107,19 @@ class UnioneApiChecker
   /**
    * Shows error messages in console.
    *
-   * @return void
+   * @return int;
    */
-  private function showMessages(IOInterface $io)
+  private function showMessages(IOInterface $io): int
   {
       if (!empty($this->messages)) {
           foreach ($this->messages as $item) {
-              $io->write($item.PHP_EOL);
+              $io->write($item);
           }
       }
 
       $exit_status = \count($this->messages);
-      $io->write("Exiting with a code of $exit_status".PHP_EOL);
-      exit($exit_status);
+      $io->write("Exiting with a code of $exit_status");
+
+      return $exit_status;
   }
 }
