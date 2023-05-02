@@ -47,6 +47,8 @@ composer require unione/unione-php
   // SDK utils.
   $mail = new Unione\Model\Email($recipients, $body);
   $mail->setFromEmail('user@example.com');
+  $mail->setSubject('test letter');
+
 
   $response = $client->emails()->send($mail->toArray());
 ```
