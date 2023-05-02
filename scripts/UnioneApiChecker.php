@@ -48,18 +48,28 @@ class UnioneApiChecker
         {
             $args = $event->getArguments();
             $io = $event->getIO();
+            $config = '';
+            $composerRootPath = self::getComposerRootPath();
 
             if (\count($args) < 2) {
                 $io->write('Please enter HOSTNAME and APIKEY parameters. Example: composer test UNIONE-HOSTNAME UNIONE-API-KEY', true);
                 exit(1);
             }
 
-            if (!\file_exists(__DIR__.'/config.php')) {
-                $io->write('Please rename example.config.php to config.php and enter your information to $parameters array. Details on README.md file', true);
-                exit(1);
+            if (!empty($args[2]) && \file_exists($args[2])) {
+              $config = require_once $args[2];
+            }
+            elseif (!empty($composerRootPath) && \file_exists($composerRootPath . '/config.php')) {
+              $config = require_once $composerRootPath . '/config.php';
+            }
+            elseif (\file_exists(__DIR__ . '/config.php')) {
+              $config = require_once __DIR__ . '/config.php';
+            }
+            else {
+              $io->write('Please rename example.config.php to config.php and enter your information to $parameters array. Details on README.md file', true);
+              exit(1);
             }
 
-            $config = require_once 'config.php';
 
             $api_checker = new UnioneApiChecker($args, $config);
             $api_checker->sendMail();
@@ -120,4 +130,16 @@ class UnioneApiChecker
 
       return \count($this->messages);
   }
+
+   public static function getComposerRootPath() {
+      $dir = getcwd();
+
+      do {
+        if (file_exists($dir.'/vendor/autoload.php')) {
+          return $dir;
+        }
+      } while ($dir = dirname($dir));
+
+      return '';
+    }
 }
