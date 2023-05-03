@@ -57,7 +57,7 @@ class UnioneApiChecker
                 exit(1);
             }
             if (empty($config)) {
-                $io->write('Please rename example.config.php to config.php and enter your information to $parameters array. Details on README.md file', true);
+                $io->write('Config file was not found. See README.md for details.', true);
                 exit(1);
             }
 
@@ -140,7 +140,7 @@ class UnioneApiChecker
    }
 
   /**
-   * Returns config file.
+   * Returns config file or false if not found.
    *
    * @return false|mixed
    */

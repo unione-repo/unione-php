@@ -48,8 +48,6 @@ composer require unione/unione-php
   $mail = new Unione\Model\Email($recipients, $body);
   $mail->setFromEmail('user@example.com');
   $mail->setSubject('test letter');
-
-
   $response = $client->emails()->send($mail->toArray());
 ```
 See [API documentation](https://docs.unione.io/en/web-api-ref#email) for more details.
