@@ -1,16 +1,16 @@
 # UniOne API test script
 
+With the help of this script, you can test API methods with given API key and host:
+* If the check is successful, the script returns status code 0.
+* If there are any issues, script returns amount of errors and shows error messages.
+
 Usage:
 
 ```bash
 compose require unione/unione-php
 cd vendor/unione/unione-php && composer test {YOUR-HOST-NAME} {YOUR-API-KEY} {CONFIG-FILE-PATH}
 ```
-You should set your parameters in the **config.php** file.
+You can change parameters in the **config.php** file.
 
-If you copy config.php to the composer root path, you don't need to pass the **CONFIG-FILE-PATH** parameter.
-Otherwise, pass the parameter.
-
-With the help of this script, you can test Email send and Webhook set methods:
-* If the check is successful. The script returns status code 0.
-* If has error, script shows error message and return status code with error counts.
+**{CONFIG-FILE-PATH}** parameter is optional. If it's not set, it'll try to find
+the config file in project root and unione-php package.
