@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace UnioneScripts;
 
+require UnioneApiChecker::getComposerRootPath().'/vendor/autoload.php';
+
 use Composer\IO\IOInterface;
 use Composer\Script\Event;
 use Unione\UnioneClient;
@@ -48,18 +50,16 @@ class UnioneApiChecker
         {
             $args = $event->getArguments();
             $io = $event->getIO();
+            $config = self::getConfig();
 
             if (\count($args) < 2) {
                 $io->write('Please enter HOSTNAME and APIKEY parameters. Example: composer test UNIONE-HOSTNAME UNIONE-API-KEY', true);
                 exit(1);
             }
-
-            if (!\file_exists(__DIR__.'/config.php')) {
-                $io->write('Please rename example.config.php to config.php and enter your information to $parameters array. Details on README.md file', true);
+            if (empty($config)) {
+                $io->write('Config file was not found. See README.md for details.', true);
                 exit(1);
             }
-
-            $config = require_once 'config.php';
 
             $api_checker = new UnioneApiChecker($args, $config);
             $api_checker->sendMail();
@@ -119,5 +119,43 @@ class UnioneApiChecker
       }
 
       return \count($this->messages);
+  }
+
+   /**
+    * Returns composer root path.
+    *
+    * @return false|string
+    */
+   public static function getComposerRootPath()
+   {
+       $dir = \getcwd();
+
+       do {
+           if (\file_exists($dir.'/vendor/autoload.php')) {
+               return $dir;
+           }
+       } while ($dir = \dirname($dir));
+
+       return false;
+   }
+
+  /**
+   * Returns config file or false if not found.
+   *
+   * @return false|mixed
+   */
+  public static function getConfig()
+  {
+      $composerRootPath = self::getComposerRootPath();
+
+      if (!empty($args[2]) && \file_exists($args[2])) {
+          return require_once $args[2];
+      } elseif (!empty($composerRootPath) && \file_exists($composerRootPath.'/config.php')) {
+          return require_once $composerRootPath.'/config.php';
+      } elseif (\file_exists(__DIR__.'/config.php')) {
+          return require_once __DIR__.'/config.php';
+      }
+
+      return false;
   }
 }
