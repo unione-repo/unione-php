@@ -6,10 +6,10 @@ Usage:
 compose require unione/unione-php
 cd vendor/unione/unione-php && composer test {YOUR-HOST-NAME} {YOUR-API-KEY} {CONFIG-FILE-PATH}
 ```
-You should copy example.config.php to config.php file and set your parameters.
+You should set your parameters in the **config.php** file.
 
-If you copy config.php to the composer root path or to the folder with example.config.php you don`t have to pass
-CONFIG-FILE-PATH param.
+If you copy config.php to the composer root path, you don't need to pass the **CONFIG-FILE-PATH** parameter.
+Otherwise, pass the parameter.
 
 With the help of this script, you can test Email send and Webhook set methods:
 * If the check is successful. The script returns status code 0.
