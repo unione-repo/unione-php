@@ -8,14 +8,14 @@ $parameters = [
       [
         'recipients' => [
           [
-            'email' => 'o.timoshuk@gmail.com',
+            'email' => 'user@example.com',
           ],
         ],
         'body' => [
           'html' => 'It is Unione send mail Test',
         ],
         'subject' => 'Unione test e-mail',
-        'from_email' => 'test@unione.devbranch.work',
+        'from_email' => 'from@test.com',
         'from_name' => 'Unione Test Script',
       ],
     ],
@@ -38,6 +38,16 @@ $parameters = [
         ],
       ],
     ],
+  ],
+
+  'request' => [
+      [
+        'path' => 'suppression/set.json',
+        'body' => [
+          'email' => 'user@example.com',
+          'cause' => 'unsubscribed',
+        ],
+      ],
   ],
 ];
 
