@@ -27,6 +27,13 @@ class UnioneApiChecker
     private array $config;
 
     /**
+     * The args array.
+     *
+     * @var array
+     */
+    private array $args;
+
+    /**
      * The array with error messages.
      *
      * @var array
@@ -37,6 +44,7 @@ class UnioneApiChecker
     {
         $this->client = new UnioneClient($args[1], $args[0]);
         $this->config = $config;
+        $this->args = $args;
     }
 
         /**
@@ -64,6 +72,7 @@ class UnioneApiChecker
             $api_checker = new UnioneApiChecker($args, $config);
             $api_checker->sendMail();
             $api_checker->setWebhook();
+            $api_checker->request();
             $exit_status = $api_checker->showMessages($io);
             $io->write("Exiting with a code of $exit_status", true);
             exit($exit_status);
@@ -78,6 +87,9 @@ class UnioneApiChecker
         {
             if (!empty($this->config['email']['send'])) {
                 foreach ($this->config['email']['send'] as $message) {
+                    if (!empty($this->args[3])) {
+                        $message['from_email'] = $this->args[3];
+                    }
                     try {
                         $this->client->emails()->send($message);
                     } catch (\Exception $error) {
@@ -96,8 +108,29 @@ class UnioneApiChecker
       {
           if (!empty($this->config['webhook']['set'])) {
               foreach ($this->config['webhook']['set'] as $webhook) {
+                  if (!empty($this->args[2])) {
+                      $webhook['url'] = $this->args[2];
+                  }
                   try {
                       $this->client->webhooks()->set($webhook);
+                  } catch (\Exception $error) {
+                      $this->messages[] = $error->getMessage();
+                  }
+              }
+          }
+      }
+
+      /**
+       * Test Unione API methods, that are not implemented in SDK yet.
+       *
+       * @return void
+       */
+      public function request()
+      {
+          if (!empty($this->config['request'])) {
+              foreach ($this->config['request'] as $request) {
+                  try {
+                      $this->client->httpRequest($request['path'], $request['body']);
                   } catch (\Exception $error) {
                       $this->messages[] = $error->getMessage();
                   }
@@ -148,8 +181,8 @@ class UnioneApiChecker
   {
       $composerRootPath = self::getComposerRootPath();
 
-      if (!empty($args[2]) && \file_exists($args[2])) {
-          return require_once $args[2];
+      if (!empty($args[4]) && \file_exists($args[4])) {
+          return require_once $args[4];
       } elseif (!empty($composerRootPath) && \file_exists($composerRootPath.'/config.php')) {
           return require_once $composerRootPath.'/config.php';
       } elseif (\file_exists(__DIR__.'/config.php')) {

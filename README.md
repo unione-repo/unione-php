@@ -17,9 +17,9 @@ composer require unione/unione-php
 
 ### Send email:
 ```php
-  $client = new Unione\UnioneClient('YOUR-API-KEY');
-  // By default, EU instance is used. You can pass another instance as 2nd argument.
-  $client = new Unione\UnioneClient('YOUR-API-KEY', 'https://us1.unione.io/en/transactional/api/v1/');
+  $client = new Unione\UnioneClient('YOUR-API-KEY', 'YOUR-HOST-NAME');
+  // Example for EU instance.
+  $client = new Unione\UnioneClient('YOUR-API-KEY', 'us1.unione.io');
 
   $recipients = [
     [
@@ -57,7 +57,7 @@ See [template engine documentation](https://docs.unione.io/en/simple-template-en
 ### Send subscribe email:
 
 ```php
-  $client = new Unione\UnioneClient('YOUR-API-KEY');
+  $client = new Unione\UnioneClient('YOUR-API-KEY', 'YOUR-HOST-NAME');
 
   $params = [
     "from_email" => "john@example.com",
@@ -70,7 +70,7 @@ API [documentation](https://docs.unione.io/en/web-api-ref#email-subscribe).
 
 ### Set template:
 ```php
-  $client = new Unione\UnioneClient('YOUR-API-KEY');
+  $client = new Unione\UnioneClient('YOUR-API-KEY', 'YOUR-HOST-NAME');
 
   $params = [
     "template" => [
@@ -91,14 +91,14 @@ API [documentation](https://docs.unione.io/en/web-api-ref#template).
 
 ### Get template:
 ```php
-  $client = new Unione\UnioneClient('YOUR-API-KEY');
+  $client = new Unione\UnioneClient('YOUR-API-KEY', 'YOUR-HOST-NAME');
   $response = $client->templates()->get('YOUR-TEMPLATE-ID');
 ```
 API [documentation](https://docs.unione.io/en/web-api-ref#template-get).
 
 ### Get templates list:
 ```php
-  $client = new Unione\UnioneClient('YOUR-API-KEY');
+  $client = new Unione\UnioneClient('YOUR-API-KEY', 'YOUR-HOST-NAME');
 
   $params = [
     "limit" => 50,
@@ -110,14 +110,14 @@ API [documentation](https://docs.unione.io/en/web-api-ref#template-list).
 
 ### Delete template:
 ```php
-  $client = new Unione\UnioneClient('YOUR-API-KEY');
+  $client = new Unione\UnioneClient('YOUR-API-KEY', 'YOUR-HOST-NAME');
   $response = $client->templates()->delete('YOUR-TEMPLATE-ID');
 ```
 API [documentation](https://docs.unione.io/en/web-api-ref#template-delete).
 
 ### Set webhook:
 ```php
-  $client = new Unione\UnioneClient('YOUR-API-KEY');
+  $client = new Unione\UnioneClient('YOUR-API-KEY', 'YOUR-HOST-NAME');
 
   $params = [
     "url" => "https://yourhost.example.com/unione-webhook",
@@ -143,7 +143,7 @@ This is how you can check the message integrity in your callback handler:
 
 ```php
 
-$client = new Unione\UnioneClient('YOUR-API-KEY');
+$client = new Unione\UnioneClient('YOUR-API-KEY', 'YOUR-HOST-NAME');
 // $body contains a callback request body.
 if ($client->webhooks()->verify($body) === TRUE) {
   // The webhook is confirmed, result can be processed.
@@ -152,21 +152,21 @@ if ($client->webhooks()->verify($body) === TRUE) {
 
 ### Get webhook:
 ```php
-  $client = new Unione\UnioneClient('YOUR-API-KEY');
+  $client = new Unione\UnioneClient('YOUR-API-KEY', 'YOUR-HOST-NAME');
   $response = $client->webhooks()->get('YOUR-WEBHOOK-URL');
 ```
 API [documentation](https://docs.unione.io/en/web-api-ref#webhook-get).
 
 ### Get list all or some webhooks:
 ```php
-  $client = new Unione\UnioneClient('YOUR-API-KEY');
+  $client = new Unione\UnioneClient('YOUR-API-KEY', 'YOUR-HOST-NAME');
   $response = $client->webhooks()->list();
 ```
 API [documentation](https://docs.unione.io/en/web-api-ref#webhook-list).
 
 ### Delete webhook:
 ```php
-  $client = new Unione\UnioneClient('YOUR-API-KEY');
+  $client = new Unione\UnioneClient('YOUR-API-KEY', 'YOUR-HOST-NAME');
   $response = $client->webhooks()->delete('YOUR-WEBHOOK-URL');
 ```
 API [documentation](https://docs.unione.io/en/web-api-ref#webhook-delete).
@@ -179,7 +179,7 @@ For API methods, that are not implemented in SDK yet, you can use `UnioneClient:
 Here is an example for "set" suppression method:
 
 ```php
-  $client = new Unione\UnioneClient('YOUR-API-KEY');
+  $client = new Unione\UnioneClient('YOUR-API-KEY', 'YOUR-HOST-NAME');
   $response = $client->httpRequest('suppression/set.json', ["email" => "user@example.com", "cause" => "unsubscribed"]);
 ```
 
@@ -198,7 +198,7 @@ requests and responses.
   $handlerStack = HandlerStack::create();
   $handlerStack->push($history);
   $config = ['handler' => $handlerStack];
-  $client = new Unione\UnioneClient('YOUR-API-KEY', '', $config);
+  $client = new Unione\UnioneClient('YOUR-API-KEY', 'YOUR-HOST-NAME', $config);
 ```
 
 See [Guzzle documentation](https://docs.guzzlephp.org/en/stable/request-options.html).

@@ -33,7 +33,7 @@ final class UnioneClient
      *
      * @var string|UriInterface
      */
-    private $endpoint = 'https://eu1.unione.io/en/transactional/api/v1/';
+    private $endpoint;
 
     /**
      * The API key.
@@ -47,12 +47,12 @@ final class UnioneClient
      * @param string $endpoint
      * @param array  $config
      */
-    public function __construct(string $apiKey, string $endpoint = '', array $config = [])
+    public function __construct(string $apiKey, string $endpoint, array $config = [])
     {
         $this->setApiKey($apiKey);
-        if (!empty($endpoint)) {
-            $this->setEndpoint($endpoint);
-        }
+
+        $this->setEndpoint($endpoint);
+
         $config = [
             'timeout' => 5,
             'base_uri' => $this->endpoint,
@@ -87,14 +87,12 @@ final class UnioneClient
     /**
      * Set the endpoint.
      *
-     * @param  string $endpoint
+     * @param  string $host
      * @return $this
      */
-    public function setEndpoint(string $endpoint): UnioneClient
+    public function setEndpoint(string $host): UnioneClient
     {
-        if (!empty($endpoint)) {
-            $this->endpoint = $endpoint;
-        }
+        $this->endpoint = "https://{$host}/en/transactional/api/v1/";
 
         return $this;
     }
