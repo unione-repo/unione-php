@@ -51,7 +51,7 @@ final class UnioneClient
     {
         $this->setApiKey($apiKey);
 
-       $this->setEndpoint($endpoint);
+        $this->setEndpoint($endpoint);
 
         $config = [
             'timeout' => 5,
@@ -93,6 +93,7 @@ final class UnioneClient
     public function setEndpoint(string $endpoint): UnioneClient
     {
         $this->endpoint = "https://{$endpoint}/en/transactional/api/v1/";
+
         return $this;
     }
 
