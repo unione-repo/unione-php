@@ -139,10 +139,10 @@ class UnioneApiChecker
       }
 
   /**
-        * Shows error messages in console.
-        *
-        * @return int an errors count
-        */
+   * Shows error messages in console.
+   *
+   * @return int an errors count
+   */
   private function showMessages(IOInterface $io): int
   {
       if (!empty($this->messages)) {
@@ -181,7 +181,7 @@ class UnioneApiChecker
   {
       $composerRootPath = self::getComposerRootPath();
 
-      if (!empty($args[2]) && \file_exists($args[4])) {
+      if (!empty($args[4]) && \file_exists($args[4])) {
           return require_once $args[4];
       } elseif (!empty($composerRootPath) && \file_exists($composerRootPath.'/config.php')) {
           return require_once $composerRootPath.'/config.php';

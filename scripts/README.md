@@ -12,7 +12,7 @@ cd vendor/unione/unione-php && composer test {YOUR-HOST-NAME} {YOUR-API-KEY} {WE
 ```
 You can change parameters in the **config.php** file.
 
-**{WEBHOOK-SET-URL}** **{EMAIL-SEND-FROM-EMAIL}** parameter is optional. If it's set they replace the value in the **config.php** file.
+**{WEBHOOK-SET-URL}** **{EMAIL-SEND-FROM-EMAIL}** parameters are optional. If it's set they override default values in the **config.php** file.
 
 **{CONFIG-FILE-PATH}** parameter is optional. If it's not set, it'll try to find
 the config file in project root and unione-php package.

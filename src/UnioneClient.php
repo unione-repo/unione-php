@@ -87,12 +87,12 @@ final class UnioneClient
     /**
      * Set the endpoint.
      *
-     * @param  string $endpoint
+     * @param  string $host
      * @return $this
      */
-    public function setEndpoint(string $endpoint): UnioneClient
+    public function setEndpoint(string $host): UnioneClient
     {
-        $this->endpoint = "https://{$endpoint}/en/transactional/api/v1/";
+        $this->endpoint = "https://{$host}/en/transactional/api/v1/";
 
         return $this;
     }
