@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.2.0](https://github.com/unione-repo/unione-php/compare/v1.1.0...v1.2.0) (2023-05-11)
+
+
+### Features
+
+* Added additional parameters to the test script. Added testing of methods not implemented in the SDK. Changes have been made to the documentation file ([6b512a3](https://github.com/unione-repo/unione-php/commit/6b512a335d9d3d288168d4c2e8faf58c278c5378))
+* Added description of how to pass the config file path ([d8bf80f](https://github.com/unione-repo/unione-php/commit/d8bf80fd2cfff815f8bab7108cb1e00a68700b1d))
+* Added the ability to pass the absolute path to the configuration file in the command line ([ddb22ee](https://github.com/unione-repo/unione-php/commit/ddb22ee4e1a5667d1d37f0e97db61f34e9012aa4))
+* Sets endpoint as required parameter in UnioneClient. Added changes to README.md ([88b8e57](https://github.com/unione-repo/unione-php/commit/88b8e5792e8daaca2cb04b0dc556f6dfb7cff640))
+* UnioneApiChecker Includes composer vendor autoload ([fc6eccc](https://github.com/unione-repo/unione-php/commit/fc6eccc7de715628a2d059d2f61f654652d5ee05))
+
 ## [1.1.0](https://github.com/unione-repo/unione-php/compare/v1.0.0...v1.1.0) (2023-04-24)
 
 
