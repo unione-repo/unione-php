@@ -7,7 +7,7 @@ With the help of this script, you can test API methods with given API key and ho
 Usage:
 
 ```bash
-compose require unione/unione-php
+composer require unione/unione-php
 cd vendor/unione/unione-php && composer test {YOUR-HOST-NAME} {YOUR-API-KEY} {WEBHOOK-SET-URL} {EMAIL-SEND-FROM-EMAIL} {CONFIG-FILE-PATH}
 ```
 You can change parameters in the **config.php** file.
