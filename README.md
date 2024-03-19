@@ -19,7 +19,7 @@ composer require unione/unione-php
 ```php
   $client = new Unione\UnioneClient('YOUR-API-KEY', 'YOUR-HOST-NAME');
   // Example for EU instance.
-  $client = new Unione\UnioneClient('YOUR-API-KEY', 'us1.unione.io');
+  $client = new Unione\UnioneClient('YOUR-API-KEY', 'eu1.unione.io');
 
   $recipients = [
     [
