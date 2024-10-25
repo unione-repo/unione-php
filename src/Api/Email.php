@@ -59,6 +59,18 @@ class Email
           Assert::email($item['email'], 'Recipient should be an array with "email" key containing a valid email address.. Got: %s');
       }
 
+      // Add the CC and BCC headers support.
+      if (isset($headers['CC'])) {
+        Assert::email($headers['CC'], 'The CC header must be an email. Got: %s');
+      }
+      if (isset($headers['BCC'])) {
+        Assert::email($headers['BCC'], 'The BCC header must be an email. Got: %s');
+      }
+      // Enable strict mode according to https://docs.unione.io/en/cc-and-bcc .
+      if (isset($headers['CC']) || isset($headers['BCC'])) {
+        $headers['X-UNIONE'] = 'strict=true';
+      }
+
       return $this->client->httpRequest('email/send.json', ['message' => $params], $headers);
   }
 
