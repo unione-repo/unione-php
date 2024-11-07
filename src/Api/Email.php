@@ -11,7 +11,8 @@ use Webmozart\Assert\Assert;
 /**
  *  This class for sending  Mail.
  */
-class Email {
+class Email
+{
     /**
      * The UnioneClient client.
      *
@@ -22,7 +23,8 @@ class Email {
     /**
      * @param UnioneClient $client
      */
-    public function __construct(UnioneClient $client) {
+    public function __construct(UnioneClient $client)
+    {
         $this->client = $client;
     }
 
@@ -40,7 +42,8 @@ class Email {
    * @throws GuzzleException
    * @see  https://docs.unione.io/en/web-api-ref#email-send
    */
-  public function send(array $params, array $headers = []): array {
+  public function send(array $params, array $headers = []): array
+  {
       if (!empty($params['message'])) {
           $params = $params['message'];
       }
@@ -83,7 +86,8 @@ class Email {
    * @throws GuzzleException
    * @see https://docs.unione.io/en/web-api-ref#email-subscribe
    */
-  public function subscribe(array $params): array {
+  public function subscribe(array $params): array
+  {
       Assert::email($params['from_email'], 'The from_email must be an email. Got: %s');
       Assert::string($params['from_name'], 'The from_name must be a string. Got: %s');
       Assert::email($params['to_email'], 'The to_email must be an email. Got: %s');
