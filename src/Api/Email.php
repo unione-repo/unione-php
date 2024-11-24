@@ -44,6 +44,33 @@ class Email
    */
   public function send(array $params, array $headers = []): array
   {
+      $headers_to_normalise = ['to', 'cc', 'bcc'];
+      foreach ($headers as $key => $header) {
+        $test = strtolower($key);
+        if (in_array($test, $headers_to_normalise)) {
+          if ($test !== $key) {
+            $headers[$test] = $headers[$key];
+            unset($headers[$key]);
+          }
+        }
+      }
+
+      $recipients = [];
+      // Prepare to remove duplicates if any.
+      if (is_array($params['recipients'])) {
+        foreach ($params['recipients'] as $item) {
+          $recipients[$item['email']] = $item;
+        }
+      }
+      foreach ($headers_to_normalise as $key) {
+        if (isset($headers[$key])) {
+          foreach (explode(',', $headers[$key]) as $item) {
+            $recipients[trim($item)] = ['email' => trim($item)];
+          }
+        }
+      }
+      $params['recipients'] = array_values($recipients);
+
       if (!empty($params['message'])) {
           $params = $params['message'];
       }
@@ -59,15 +86,19 @@ class Email
           Assert::email($item['email'], 'Recipient should be an array with "email" key containing a valid email address.. Got: %s');
       }
 
-      // Add the CC and BCC headers support.
-      if (isset($headers['CC'])) {
-        Assert::email($headers['CC'], 'The CC header must be an email. Got: %s');
+      if (isset($headers['to'])) {
+        Assert::email($headers['to'], 'The TO header must be an email. Got: %s');
       }
-      if (isset($headers['BCC'])) {
-        Assert::email($headers['BCC'], 'The BCC header must be an email. Got: %s');
+
+      // Add the CC and BCC headers support.
+      if (isset($headers['cc'])) {
+        Assert::email($headers['cc'], 'The CC header must be an email. Got: %s');
+      }
+      if (isset($headers['bcc'])) {
+        Assert::email($headers['bcc'], 'The BCC header must be an email. Got: %s');
       }
       // Enable strict mode according to https://docs.unione.io/en/cc-and-bcc .
-      if (isset($headers['CC']) || isset($headers['BCC'])) {
+      if (isset($headers['cc']) || isset($headers['bcc'])) {
         $headers['X-UNIONE'] = 'strict=true';
       }
 
