@@ -47,7 +47,7 @@ class Email
       $headers_to_normalise = ['to', 'cc', 'bcc'];
       foreach ($headers as $key => $header) {
         $test = \strtolower($key);
-        if (\in_array($test, $headers_to_normalise)) {
+        if (\in_array($test, $headers_to_normalise, TRUE)) {
           if ($test !== $key) {
             $headers[$test] = $headers[$key];
             unset($headers[$key]);
