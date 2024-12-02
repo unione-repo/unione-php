@@ -46,8 +46,8 @@ class Email
   {
       $headers_to_normalise = ['to', 'cc', 'bcc'];
       foreach ($headers as $key => $header) {
-        $test = strtolower($key);
-        if (in_array($test, $headers_to_normalise)) {
+        $test = \strtolower($key);
+        if (\in_array($test, $headers_to_normalise)) {
           if ($test !== $key) {
             $headers[$test] = $headers[$key];
             unset($headers[$key]);
@@ -57,19 +57,20 @@ class Email
 
       $recipients = [];
       // Prepare to remove duplicates if any.
-      if (is_array($params['recipients'])) {
+      if (\is_array($params['recipients'])) {
         foreach ($params['recipients'] as $item) {
           $recipients[$item['email']] = $item;
         }
       }
       foreach ($headers_to_normalise as $key) {
         if (isset($headers[$key])) {
-          foreach (explode(',', $headers[$key]) as $item) {
-            $recipients[trim($item)] = ['email' => trim($item)];
+          foreach (\explode(',', $headers[$key]) as $item) {
+            $trimmed = \trim($item);
+            $recipients[$trimmed] = ['email' => $trimmed];
           }
         }
       }
-      $params['recipients'] = array_values($recipients);
+      $params['recipients'] = \array_values($recipients);
 
       if (!empty($params['message'])) {
           $params = $params['message'];
