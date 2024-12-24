@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://github.com/unione-repo/unione-php/compare/v1.2.0...v1.3.0) (2024-12-23)
+
+
+### Features
+
+* Added emails from 'CC' and 'BCC' headers to the 'recipients' array with substitutions and filter them by email address to remove duplicates. Checked and moved headers 'TO', 'CC', 'BCC' to the lower case if they are present in the other variants. Added the checking if it contains email for the 'TO' header, fixed checking for 'CC' and 'BCC' headers. ([807e1cd](https://github.com/unione-repo/unione-php/commit/807e1cd075dafae9fe21ade31c3d68b12d51d954))
+* Added the CC and BCC headers support. Enabled strict mode according to https://docs.unione.io/en/cc-and-bcc if headers CC or BCC present. ([b490a7e](https://github.com/unione-repo/unione-php/commit/b490a7e6b07275d3d3200e45c28d58ea4b700237))
+* Added the CC and BCC headers support. Enabled strict mode according to https://docs.unione.io/en/cc-and-bcc if headers CC or BCC present. ([31dfd53](https://github.com/unione-repo/unione-php/commit/31dfd534e55230f3cfe60513ca333bf1fcb05cd4))
+* Added the CC and BCC headers support. Enabled strict mode according to https://docs.unione.io/en/cc-and-bcc if headers CC or BCC present. ([960a8cb](https://github.com/unione-repo/unione-php/commit/960a8cbda6cf8a16bc8a12f84a73682e797e726b))
+* Added the CC and BCC headers support. Enabled strict mode according to https://docs.unione.io/en/cc-and-bcc if headers CC or BCC present. Added emails from 'CC' and 'BCC' headers to the 'recipients' array with substitutions and filtered them by email address to remove duplicates. Checked and moved headers 'TO', 'CC', 'BCC' to the lowercase if they are present in the other variants. Added the checking if it contains email for the 'TO' header, fixed checking for 'CC' and 'BCC' headers. ([59e9278](https://github.com/unione-repo/unione-php/commit/59e92780ffa293d10ff30f68e60d556e4ff87652))
+* Added the CC and BCC headers support. Enabled strict mode according to https://docs.unione.io/en/cc-and-bcc if headers CC or BCC present. Added emails from 'CC' and 'BCC' headers to the 'recipients' array with substitutions and filtered them by email address to remove duplicates. Checked and moved headers 'TO', 'CC', 'BCC' to the lowercase if they are present in the other variants. Added the checking if it contains email for the 'TO' header, fixed checking for 'CC' and 'BCC' headers. ([bcc297b](https://github.com/unione-repo/unione-php/commit/bcc297be199136e3096e95ad08684df345032a4e))
+
 ## [1.2.0](https://github.com/unione-repo/unione-php/compare/v1.1.0...v1.2.0) (2023-05-11)
 
 
