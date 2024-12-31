@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/unione-repo/unione-php/compare/v1.3.0...v1.3.1) (2024-12-31)
+
+
+### Miscellaneous Chores
+
+* **master:** release 1.3.1 ([eb9c43f](https://github.com/unione-repo/unione-php/commit/eb9c43f4327c13d382179d1e01af567e9c353172))
+
 ## [1.3.0](https://github.com/unione-repo/unione-php/compare/v1.2.0...v1.3.0) (2024-12-23)
 
 
