@@ -19,7 +19,7 @@ final class UnioneClient
     /**
      * The current version of the SDK.
      */
-    private const VERSION = '1.3.0';
+    private const VERSION = '1.3.1';
 
     /**
      * The HTTP client.
