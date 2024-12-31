@@ -87,20 +87,12 @@ class Email
           Assert::email($item['email'], 'Recipient should be an array with "email" key containing a valid email address.. Got: %s');
       }
 
-      if (isset($headers['to'])) {
-        Assert::email($headers['to'], 'The TO header must be an email. Got: %s');
-      }
-
       // Add the CC and BCC headers support.
       if (isset($headers['cc'])) {
         Assert::email($headers['cc'], 'The CC header must be an email. Got: %s');
       }
       if (isset($headers['bcc'])) {
         Assert::email($headers['bcc'], 'The BCC header must be an email. Got: %s');
-      }
-      // Enable strict mode according to https://docs.unione.io/en/cc-and-bcc .
-      if (isset($headers['cc']) || isset($headers['bcc'])) {
-        $headers['X-UNIONE'] = 'strict=true';
       }
 
       return $this->client->httpRequest('email/send.json', ['message' => $params], $headers);
@@ -122,7 +114,6 @@ class Email
   {
       Assert::email($params['from_email'], 'The from_email must be an email. Got: %s');
       Assert::string($params['from_name'], 'The from_name must be a string. Got: %s');
-      Assert::email($params['to_email'], 'The to_email must be an email. Got: %s');
 
       return $this->client->httpRequest('email/subscribe.json', $params);
   }
