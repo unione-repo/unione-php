@@ -87,14 +87,6 @@ class Email
           Assert::email($item['email'], 'Recipient should be an array with "email" key containing a valid email address.. Got: %s');
       }
 
-      // Add the CC and BCC headers support.
-      if (isset($headers['cc'])) {
-        Assert::email($headers['cc'], 'The CC header must be an email. Got: %s');
-      }
-      if (isset($headers['bcc'])) {
-        Assert::email($headers['bcc'], 'The BCC header must be an email. Got: %s');
-      }
-
       return $this->client->httpRequest('email/send.json', ['message' => $params], $headers);
   }
 
