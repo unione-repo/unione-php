@@ -1,5 +1,10 @@
 # UniOne PHP client
 
+> [!WARNING]
+> **Deprecated.** This library is no longer maintained. Use [unione-php-sdk](https://github.com/unione-repo/unione-php-sdk) instead.
+>
+> Migration: replace `unione/unione-php` with `unione-repo/unione-php-sdk` (`composer remove unione/unione-php && composer require unione-repo/unione-php-sdk`). The client covers the same Web API methods; see the new README for usage.
+
 [![Latest Stable Version](http://poser.pugx.org/unione/unione-php/v)](https://packagist.org/packages/unione/unione-php)
 [![Total Downloads](http://poser.pugx.org/unione/unione-php/downloads)](https://packagist.org/packages/unione/unione-php)
 
